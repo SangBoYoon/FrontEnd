@@ -10,4 +10,12 @@ module.exports = function (app) {
             changeOrigin: true,
         }),
     );
+
+    app.use(
+        '/accounter',
+        createProxyMiddleware({
+            target: 'http://54.180.19.84:8080',
+            changeOrigin: true,
+        }),
+    );
 };
