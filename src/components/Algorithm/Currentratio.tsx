@@ -21,7 +21,7 @@ const Currentratio = () => {
 
     useEffect(() => {
         axios({
-            url: '/api/company.json',
+            url: '/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
