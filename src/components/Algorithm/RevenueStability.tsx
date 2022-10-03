@@ -16,7 +16,7 @@ const RevenueStability = () => {
             console.error(err);
         });
 
-    return <div>ㅎㅇ</div>;
+    return <div>ㅎddㅇ</div>;
 };
 
 export default RevenueStability;
