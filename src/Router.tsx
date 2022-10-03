@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App';
 import RevenueStability from './components/Algorithm/RevenueStability';
-import Currentratio from './components/Algorithm/currentratio';
+import Currentratio from './components/Algorithm/Currentratio';
+import CorporationInfo from './Corporation/CorporationInfo';
 
 const Router = () => {
     return (
@@ -14,6 +15,7 @@ const Router = () => {
                     element={<RevenueStability />}
                 />
                 <Route path="/Currentratio" element={<Currentratio />} />
+                <Route path="/CorporationInfo" element={<CorporationInfo />} />
             </Routes>
         </BrowserRouter>
     );
