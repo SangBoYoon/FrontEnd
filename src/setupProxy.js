@@ -18,4 +18,12 @@ module.exports = function (app) {
             changeOrigin: true,
         }),
     );
+
+    app.use(
+        '/naver',
+        createProxyMiddleware({
+            target: 'https://openapi.naver.com/v1/search/doc.json',
+            changeOrigin: true,
+        }),
+    );
 };
