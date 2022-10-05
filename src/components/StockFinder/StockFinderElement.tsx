@@ -14,7 +14,7 @@ const DrinkListElement: React.FC<corpType> = ({
     corpCategory,
 }) => {
     return (
-        <LinkWrap to={`/StockFinder/${corpCode}`}>
+        <LinkWrap to={`/StockFinder/${corpCode}`} key={corpCode}>
             <Contents>
                 <CorpsInfo>
                     <CorpInfo>

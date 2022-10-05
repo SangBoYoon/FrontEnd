@@ -2,12 +2,13 @@
 /* eslint-disable react/button-has-type */
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 import styled from 'styled-components';
 import RevenueStability from './RevenueStability';
 
 const CorpAnalysis: React.FC = () => {
-    const { corpCode } = useParams();
-
+    const { corpCode } = useParams<{ corpCode: string }>();
+    console.log(corpCode);
     const [viewSelect, setViewSelect] = useState([
         true,
         false,
@@ -111,7 +112,8 @@ const CorpAnalysis: React.FC = () => {
                     {viewSelect[0] ? (
                         '기업소개다.'
                     ) : viewSelect[1] ? (
-                        <RevenueStability />
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        <RevenueStability corpCode={corpCode!} />
                     ) : viewSelect[2] ? (
                         '세번째거다.'
                     ) : viewSelect[3] ? (
