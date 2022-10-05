@@ -7,6 +7,8 @@ import CorporationInfo from './components/Corporation/CorporationInfo';
 import LoginSuccess from './components/Login/LoginSuccess';
 import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
+import AccountingFraud from './components/Algorithm/AccountingFraud';
+import DelistReason from './components/Algorithm/DelistReason';
 
 const Router = () => {
     return (
@@ -20,7 +22,9 @@ const Router = () => {
                 />
                 <Route path="/login/token" element={<LoginSuccess />} />
                 <Route path="/Currentratio" element={<Currentratio />} />
+                <Route path="/AccountingFraud" element={<AccountingFraud />} />
                 <Route path="/CorporationInfo" element={<CorporationInfo />} />
+                <Route path="/DelistReason" element={<DelistReason />} />
             </Routes>
             <Footer />
         </BrowserRouter>
