@@ -190,6 +190,7 @@ const DelistReason = () => {
             2021 : {capitalImpairment2021}% <br />
             자본잠식률 점수 : {capitalImpairmentPoint} <br />
             총점수:{delistReason}
+            ㅎㅇ
         </Induty>
     );
 };
