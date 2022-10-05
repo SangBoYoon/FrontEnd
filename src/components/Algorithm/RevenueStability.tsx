@@ -51,29 +51,29 @@ const RevenueStability: React.FC<RevenueStabilityType> = ({ corpCode }) => {
             ])
             .then(
                 axios.spread((res2021, res2020, res2019, res2018, res2017) => {
-                    if (
-                        res2021 !== null &&
-                        res2021 !== undefined &&
-                        res2020 !== null &&
-                        res2020 !== undefined &&
-                        res2019 !== null &&
-                        res2019 !== undefined &&
-                        res2018 !== null &&
-                        res2018 !== undefined &&
-                        res2017 !== null &&
-                        res2017 !== undefined
-                    ) {
-                        setAccountList1(res2021.data.list);
-                        setAccountList2(res2020.data.list);
-                        setAccountList3(res2019.data.list);
-                        setAccountList4(res2018.data.list);
-                        setAccountList5(res2017.data.list);
-                        setDataEx(true);
-                    } else {
-                        setDataEx(false);
-                        console.log(dataEx);
-                        console.log('axios에서부터 데이터가 없음');
-                    }
+                    // if (
+                    //     res2021 !== null &&
+                    //     res2021 !== undefined &&
+                    //     res2020 !== null &&
+                    //     res2020 !== undefined &&
+                    //     res2019 !== null &&
+                    //     res2019 !== undefined &&
+                    //     res2018 !== null &&
+                    //     res2018 !== undefined &&
+                    //     res2017 !== null &&
+                    //     res2017 !== undefined
+                    // ) {
+                    setAccountList1(res2021.data.list);
+                    setAccountList2(res2020.data.list);
+                    setAccountList3(res2019.data.list);
+                    setAccountList4(res2018.data.list);
+                    setAccountList5(res2017.data.list);
+                    setDataEx(true);
+                    // } else {
+                    //     setDataEx(false);
+                    //     console.log(dataEx);
+                    //     console.log('axios에서부터 데이터가 없음');
+                    // }
                 }),
             )
             .catch((err) => {
@@ -125,14 +125,6 @@ const RevenueStability: React.FC<RevenueStabilityType> = ({ corpCode }) => {
                         v.sj_nm === '포괄손익계산서',
                 );
 
-                const resultObj = [
-                    value1[0],
-                    value2[0],
-                    value3[0],
-                    value4[0],
-                    value5[0],
-                ];
-                console.log(resultObj);
                 if (
                     value1[0] !== null &&
                     value1[0] !== undefined &&
@@ -160,15 +152,66 @@ const RevenueStability: React.FC<RevenueStabilityType> = ({ corpCode }) => {
                         Number(value1[0].thstrm_amount),
                     ];
 
-                    const Calculator = () => {
-                        return jStat.corrcoeff(
-                            result,
-                            [2017, 2018, 2019, 2020, 2021],
-                        );
+                    const v: number = jStat.corrcoeff(
+                        result,
+                        [2017, 2018, 2019, 2020, 2021],
+                    );
+                    console.log(v);
+                    console.log(Math.round(v * 10) / 10);
+
+                    const revenueStabilityCal = () => {
+                        if (v >= -1 && v < -0.5) {
+                            setScore(25);
+                        } else if (v >= -0.5 && v < 0) {
+                            setScore(50);
+                        } else if (v >= 0 && v < 0.5) {
+                            setScore(75);
+                        } else if (v >= 0.5 && v <= 1) {
+                            setScore(100);
+                        }
                     };
-                    setCalculationResult(Number(Calculator().toFixed(2)));
-                    console.log(Calculator());
+
+                    const countScore = () => {
+                        let count = 0;
+                        // eslint-disable-next-line no-plusplus
+                        for (let i = 0; i < result.length; i++) {
+                            if (result[i] < 0) {
+                                // eslint-disable-next-line no-plusplus
+                                count++;
+                            }
+                        }
+
+                        console.log(count);
+                        if (count === 1) {
+                            setScore((score) => score - 10);
+                        } else if (count === 2) {
+                            setScore((score) => score - 20);
+                        } else if (count === 3) {
+                            if (
+                                (result[0] < 0 &&
+                                    result[1] < 0 &&
+                                    result[2] < 0) ||
+                                (result[1] < 0 &&
+                                    result[2] < 0 &&
+                                    result[3] < 0) ||
+                                (result[2] < 0 &&
+                                    result[3] < 0 &&
+                                    result[4] < 0) ||
+                                (result[3] < 0 &&
+                                    result[4] < 0 &&
+                                    result[5] < 0)
+                            ) {
+                                setScore((score) => score - 40);
+                            } else {
+                                setScore((score) => score - 30);
+                            }
+                        }
+                    };
+                    setCalculationResult(v);
+
+                    console.log(calculationResult);
                     revenueStabilityCal();
+                    countScore();
                 }
             } else {
                 setNoDataPrint(true);
@@ -178,38 +221,7 @@ const RevenueStability: React.FC<RevenueStabilityType> = ({ corpCode }) => {
     }, [accountList1, accountList2, accountList3, accountList4, accountList5]);
 
     const [score, setScore] = useState(0);
-    const revenueStabilityCal = () => {
-        if (calculationResult >= -1 && calculationResult < -0.5) {
-            setScore(25);
-        } else if (calculationResult >= -0.5 && calculationResult < 0) {
-            setScore(50);
-        } else if (calculationResult >= 0 && calculationResult < 0.5) {
-            setScore(75);
-        } else if (calculationResult >= 0.5 && calculationResult <= 1) {
-            setScore(100);
-        }
 
-        console.log(calculationResult);
-
-        // const count = allRevenue.filter((element) => element < 0).length;
-        // console.log(count);
-        // if (count === 1) {
-        //     setScore(score - 10);
-        // } else if (count === 2) {
-        //     setScore(score - 20);
-        // } else if (count === 3) {
-        //     if (
-        //         (allRevenue[0] < 0 && allRevenue[1] < 0 && allRevenue[2] < 0) ||
-        //         (allRevenue[1] < 0 && allRevenue[2] < 0 && allRevenue[3] < 0) ||
-        //         (allRevenue[2] < 0 && allRevenue[3] < 0 && allRevenue[4] < 0) ||
-        //         (allRevenue[3] < 0 && allRevenue[4] < 0 && allRevenue[5] < 0)
-        //     ) {
-        //         setScore(score - 40);
-        //     } else {
-        //         setScore(score - 30);
-        //     }
-        // }
-    };
     return (
         <div>
             <div>
@@ -222,7 +234,9 @@ const RevenueStability: React.FC<RevenueStabilityType> = ({ corpCode }) => {
                         <h1>2019년 영업수익 : {allRevenue[2]}</h1>
                         <h1>2020년 영업수익 : {allRevenue[3]}</h1>
                         <h1>2021년 영업수익 : {allRevenue[4]}</h1>
-                        <h1>상관계수 : {calculationResult}</h1>
+                        <h1>
+                            상관계수 : {Math.round(calculationResult * 10) / 10}
+                        </h1>
                         <h1>총 계산 결과 : {score}</h1>
                     </div>
                 )}
