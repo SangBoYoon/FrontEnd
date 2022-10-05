@@ -15,19 +15,17 @@ type RevenueStabilityType = {
     corpCode: string;
 };
 
-type RevenueType = {
-    thstrm_amount: string; // 영업이익
-};
-
 const RevenueStability: React.FC<RevenueStabilityType> = ({ corpCode }) => {
-    const [accountList1, setAccountList1] = useState<accountType[]>([]);
-    const [accountList2, setAccountList2] = useState<accountType[]>([]);
-    const [accountList3, setAccountList3] = useState<accountType[]>([]);
-    const [accountList4, setAccountList4] = useState<accountType[]>([]);
-    const [accountList5, setAccountList5] = useState<accountType[]>([]);
+    const [accountList1, setAccountList1] = useState<accountType[]>([]); // 2021
+    const [accountList2, setAccountList2] = useState<accountType[]>([]); // 2020
+    const [accountList3, setAccountList3] = useState<accountType[]>([]); // 2019
+    const [accountList4, setAccountList4] = useState<accountType[]>([]); // 2018
+    const [accountList5, setAccountList5] = useState<accountType[]>([]); // 2017
     const [error, setError] = useState(null);
-
-    const [dataEx, setDataEx] = useState(true);
+    const [dataEx, setDataEx] = useState(true); // api 에러
+    const [allRevenue, setAllRevenue] = useState([0, 0, 0, 0, 0]); // 2017 ~ 2021 영업수익
+    const [calculationResult, setCalculationResult] = useState(0); // 상관계수 결과
+    const [noDataPrint, setNoDataPrint] = useState(false); // 5개년 데이터 없을 시
 
     const CRTFC_KEY = '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0';
 
@@ -147,6 +145,13 @@ const RevenueStability: React.FC<RevenueStabilityType> = ({ corpCode }) => {
                     value5 !== null &&
                     value5[0] !== undefined
                 ) {
+                    setAllRevenue([
+                        Number(value5[0].thstrm_amount),
+                        Number(value4[0].thstrm_amount),
+                        Number(value3[0].thstrm_amount),
+                        Number(value2[0].thstrm_amount),
+                        Number(value1[0].thstrm_amount),
+                    ]);
                     const result = [
                         Number(value5[0].thstrm_amount),
                         Number(value4[0].thstrm_amount),
@@ -161,24 +166,66 @@ const RevenueStability: React.FC<RevenueStabilityType> = ({ corpCode }) => {
                             [2017, 2018, 2019, 2020, 2021],
                         );
                     };
-
+                    setCalculationResult(Number(Calculator().toFixed(2)));
                     console.log(Calculator());
+                    revenueStabilityCal();
                 }
             } else {
+                setNoDataPrint(true);
                 console.log('데이터없음');
             }
         }
     }, [accountList1, accountList2, accountList3, accountList4, accountList5]);
 
+    const [score, setScore] = useState(0);
+    const revenueStabilityCal = () => {
+        if (calculationResult >= -1 && calculationResult < -0.5) {
+            setScore(25);
+        } else if (calculationResult >= -0.5 && calculationResult < 0) {
+            setScore(50);
+        } else if (calculationResult >= 0 && calculationResult < 0.5) {
+            setScore(75);
+        } else if (calculationResult >= 0.5 && calculationResult <= 1) {
+            setScore(100);
+        }
+
+        console.log(calculationResult);
+
+        // const count = allRevenue.filter((element) => element < 0).length;
+        // console.log(count);
+        // if (count === 1) {
+        //     setScore(score - 10);
+        // } else if (count === 2) {
+        //     setScore(score - 20);
+        // } else if (count === 3) {
+        //     if (
+        //         (allRevenue[0] < 0 && allRevenue[1] < 0 && allRevenue[2] < 0) ||
+        //         (allRevenue[1] < 0 && allRevenue[2] < 0 && allRevenue[3] < 0) ||
+        //         (allRevenue[2] < 0 && allRevenue[3] < 0 && allRevenue[4] < 0) ||
+        //         (allRevenue[3] < 0 && allRevenue[4] < 0 && allRevenue[5] < 0)
+        //     ) {
+        //         setScore(score - 40);
+        //     } else {
+        //         setScore(score - 30);
+        //     }
+        // }
+    };
     return (
         <div>
             <div>
-                sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfs
-                {/* <h3>2021년 영업수익 {value1[0].thstrm_amount}</h3>
-                <h3>2020년 영업수익 {value1[1].thstrm_amount}</h3>
-                <h3>2019년 영업수익 {value1[2].thstrm_amount}</h3>
-                <h3>2018년 영업수익 {value1[3].thstrm_amount}</h3>
-                <h3>2017년 영업수익 {value1[4].thstrm_amount}</h3> */}
+                {noDataPrint ? (
+                    '데이터 없슬 때 띄울 화면'
+                ) : (
+                    <div>
+                        <h1>2017년 영업수익 : {allRevenue[0]}</h1>
+                        <h1>2018년 영업수익 : {allRevenue[1]}</h1>
+                        <h1>2019년 영업수익 : {allRevenue[2]}</h1>
+                        <h1>2020년 영업수익 : {allRevenue[3]}</h1>
+                        <h1>2021년 영업수익 : {allRevenue[4]}</h1>
+                        <h1>상관계수 : {calculationResult}</h1>
+                        <h1>총 계산 결과 : {score}</h1>
+                    </div>
+                )}
             </div>
         </div>
     );
