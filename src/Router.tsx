@@ -21,7 +21,7 @@ const Router = () => {
 
                 <Route path="/StockFinder" element={<StockFinder />} />
                 <Route
-                    path="/StockFinder/:CorpCode"
+                    path="/StockFinder/:corpCode"
                     element={<CorpAnalysis />}
                 />
                 <Route path="/login/token" element={<LoginSuccess />} />
