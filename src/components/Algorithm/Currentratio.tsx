@@ -25,12 +25,14 @@ type currentRatioType = {
     thstrm_nm?: string;
 };
 
-const Currentratio = () => {
+type corpCodeType = {
+    corpCode: string;
+};
+
+const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
     const [name, setName] = useState<string>('');
     // 종목명
-    const corpCode = '00447502';
     const [currentAssets, setCurrentAssets] = useState<any>(0);
-    // let currentAssets = 0;
     // 유동자산
     const [currentLiabilities, setCurrentLiabilities] = useState(0);
     // 유동부채
@@ -42,20 +44,10 @@ const Currentratio = () => {
     // 유동성키워드
     const [currentratioExplanation, setCurrentratioExplanation] = useState('');
     // 유동비율 설명
-    const [fatherArray, setFatherArray] = useState([]);
+    const [fatherArray, setFatherArray] = useState<currentRatioType[]>([]);
+    const [dataEx, setDataEx] = useState(true);
 
     useEffect(() => {
-        // axios({
-        //     url: '/accounter/corps',
-        //     method: 'get',
-        // })
-        //     .then((res) => {
-        //         console.log(res);
-        //     })
-        //     .catch((err) => {
-        //         console.error(err);
-        //     });
-
         axios({
             url: '/api/company.json',
             method: 'get',
@@ -87,9 +79,13 @@ const Currentratio = () => {
             // open dart api를 통해 재무제표를 가져옴
         })
             .then((res) => {
-                console.log(res.data.list);
-                setFatherArray(res.data.list);
-                // setCurrentLiabilities(res.data.list[15].thstrm_amount);
+                if (res !== null && res !== undefined) {
+                    setFatherArray(res.data.list);
+                    setDataEx(true);
+                } else {
+                    setDataEx(false);
+                    console.log('dart open api에 데이터가 존재하지 않음');
+                }
             })
             .catch((err) => {
                 console.error(err);
@@ -97,15 +93,26 @@ const Currentratio = () => {
     }, []);
 
     useEffect(() => {
-        if (fatherArray.length !== 0) {
-            const currentAssetsArray: any = fatherArray.filter(
-                (man: currentRatioType) => man.account_nm === '유동자산',
-            );
-            const currentLiabilitiesArray: any = fatherArray.filter(
-                (man: currentRatioType) => man.account_nm === '유동부채',
-            );
-            setCurrentAssets(currentAssetsArray[0].thstrm_amount);
-            setCurrentLiabilities(currentLiabilitiesArray[0].thstrm_amount);
+        if (dataEx === true) {
+            if (fatherArray !== null && fatherArray !== undefined) {
+                const currentAssetsArray: any = fatherArray.filter(
+                    (man: currentRatioType) => man.account_nm === '유동자산',
+                );
+                const currentLiabilitiesArray: any = fatherArray.filter(
+                    (man: currentRatioType) => man.account_nm === '유동부채',
+                );
+                if (
+                    currentAssetsArray[0] !== null &&
+                    currentAssetsArray[0] !== undefined &&
+                    currentLiabilitiesArray[0] !== null &&
+                    currentLiabilitiesArray[0] !== undefined
+                ) {
+                    setCurrentAssets(currentAssetsArray[0].thstrm_amount);
+                    setCurrentLiabilities(
+                        currentLiabilitiesArray[0].thstrm_amount,
+                    );
+                }
+            }
         }
     }, [fatherArray]);
 
