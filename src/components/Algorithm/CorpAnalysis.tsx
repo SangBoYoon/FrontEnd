@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/button-has-type */
 import React, { useState } from 'react';
@@ -5,6 +6,9 @@ import { useParams } from 'react-router-dom';
 
 import styled from 'styled-components';
 import RevenueStability from './RevenueStability';
+import AccountingFraud from './AccountingFraud';
+import Currentratio from './Currentratio';
+import DelistReason from './DelistReason';
 
 const CorpAnalysis: React.FC = () => {
     const { corpCode } = useParams<{ corpCode: string }>();
@@ -115,11 +119,11 @@ const CorpAnalysis: React.FC = () => {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         <RevenueStability corpCode={corpCode!} />
                     ) : viewSelect[2] ? (
-                        '세번째거다.'
+                        <DelistReason corpCode={corpCode!} />
                     ) : viewSelect[3] ? (
-                        '네번째거다.'
+                        <Currentratio corpCode={corpCode!} />
                     ) : viewSelect[4] ? (
-                        '많다 다섯번째거다.'
+                        <AccountingFraud corpCode={corpCode!} />
                     ) : (
                         '드디어마지막'
                     )}

@@ -27,10 +27,11 @@ type currentRatioType = {
     thstrm_nm: string;
 };
 
-const AccountingFraud = () => {
+type corpCodeType = {
+    corpCode: string;
+};
+const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
     const [name, setName] = useState<string>('');
-    // 종목명
-    const corpCode = '00447502';
     const [totalComprehensiveIncome2021, settotalComprehensiveIncome2021] =
         useState<number>(0);
     const [totalComprehensiveIncome2020, settotalComprehensiveIncome2020] =
@@ -41,10 +42,20 @@ const AccountingFraud = () => {
         useState<number>(0);
 
     const [accountingFraudPoint, setaccountingFraudPoint] = useState('');
-    const [fatherArray2021, setFatherArray2021] = useState([]);
-    const [fatherArray2020, setFatherArray2020] = useState([]);
-    const [fatherArray2019, setFatherArray2019] = useState([]);
-    const [fatherArray2018, setFatherArray2018] = useState([]);
+    const [fatherArray2021, setFatherArray2021] = useState<currentRatioType[]>(
+        [],
+    );
+    const [fatherArray2020, setFatherArray2020] = useState<currentRatioType[]>(
+        [],
+    );
+    const [fatherArray2019, setFatherArray2019] = useState<currentRatioType[]>(
+        [],
+    );
+    const [fatherArray2018, setFatherArray2018] = useState<currentRatioType[]>(
+        [],
+    );
+    const [dataEx, setDataEx] = useState(true);
+    const [noDataPrint, setNoDataPrint] = useState(false); // 4개년 데이터 없을 시
 
     useEffect(() => {
         axios({
@@ -78,7 +89,13 @@ const AccountingFraud = () => {
             // open dart api를 통해 재무제표를 가져옴
         })
             .then((res) => {
-                setFatherArray2021(res.data.list);
+                if (res !== null && res !== undefined) {
+                    setFatherArray2021(res.data.list);
+                    setDataEx(true);
+                } else {
+                    setDataEx(false);
+                    console.log('dart open api에 데이터가 존재하지 않음');
+                }
             })
             .catch((err) => {
                 console.error(err);
@@ -98,7 +115,13 @@ const AccountingFraud = () => {
             // open dart api를 통해 재무제표를 가져옴
         })
             .then((res) => {
-                setFatherArray2020(res.data.list);
+                if (res !== null && res !== undefined) {
+                    setFatherArray2020(res.data.list);
+                    setDataEx(true);
+                } else {
+                    setDataEx(false);
+                    console.log('dart open api에 데이터가 존재하지 않음');
+                }
             })
             .catch((err) => {
                 console.error(err);
@@ -118,7 +141,13 @@ const AccountingFraud = () => {
             // open dart api를 통해 재무제표를 가져옴
         })
             .then((res) => {
-                setFatherArray2019(res.data.list);
+                if (res !== null && res !== undefined) {
+                    setFatherArray2019(res.data.list);
+                    setDataEx(true);
+                } else {
+                    setDataEx(false);
+                    console.log('dart open api에 데이터가 존재하지 않음');
+                }
             })
             .catch((err) => {
                 console.error(err);
@@ -138,7 +167,13 @@ const AccountingFraud = () => {
             // open dart api를 통해 재무제표를 가져옴
         })
             .then((res) => {
-                setFatherArray2018(res.data.list);
+                if (res !== null && res !== undefined) {
+                    setFatherArray2018(res.data.list);
+                    setDataEx(true);
+                } else {
+                    setDataEx(false);
+                    console.log('dart open api에 데이터가 존재하지 않음');
+                }
             })
             .catch((err) => {
                 console.error(err);
@@ -146,31 +181,56 @@ const AccountingFraud = () => {
     }, []);
 
     useEffect(() => {
-        if (fatherArray2021.length !== 0) {
-            const currentAssetsArray2021: any = fatherArray2021.filter(
-                (man: currentRatioType) => man.account_nm === '총포괄손익',
-            );
-            const currentAssetsArray2020: any = fatherArray2020.filter(
-                (man: currentRatioType) => man.account_nm === '총포괄손익',
-            );
-            const currentAssetsArray2019: any = fatherArray2019.filter(
-                (man: currentRatioType) => man.account_nm === '총포괄손익',
-            );
-            const currentAssetsArray2018: any = fatherArray2018.filter(
-                (man: currentRatioType) => man.account_nm === '총포괄손익',
-            );
-            settotalComprehensiveIncome2021(
-                Math.sign(currentAssetsArray2021[0].thstrm_amount),
-            );
-            settotalComprehensiveIncome2020(
-                Math.sign(currentAssetsArray2020[0].thstrm_amount),
-            );
-            settotalComprehensiveIncome2019(
-                Math.sign(currentAssetsArray2019[0].thstrm_amount),
-            );
-            settotalComprehensiveIncome2018(
-                Math.sign(currentAssetsArray2018[0].thstrm_amount),
-            );
+        if (dataEx === true) {
+            if (
+                fatherArray2021 !== null &&
+                fatherArray2021 !== undefined &&
+                fatherArray2020 !== null &&
+                fatherArray2020 !== undefined &&
+                fatherArray2019 !== null &&
+                fatherArray2019 !== undefined &&
+                fatherArray2018 !== null &&
+                fatherArray2018 !== undefined
+            ) {
+                const currentAssetsArray2021: any = fatherArray2021.filter(
+                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                );
+                const currentAssetsArray2020: any = fatherArray2020.filter(
+                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                );
+                const currentAssetsArray2019: any = fatherArray2019.filter(
+                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                );
+                const currentAssetsArray2018: any = fatherArray2018.filter(
+                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                );
+                if (
+                    currentAssetsArray2021[0] !== null &&
+                    currentAssetsArray2021[0] !== undefined &&
+                    currentAssetsArray2020[0] !== null &&
+                    currentAssetsArray2020[0] !== undefined &&
+                    currentAssetsArray2019[0] !== null &&
+                    currentAssetsArray2019[0] !== undefined &&
+                    currentAssetsArray2018[0] !== null &&
+                    currentAssetsArray2018[0] !== undefined
+                ) {
+                    settotalComprehensiveIncome2021(
+                        Math.sign(currentAssetsArray2021[0].thstrm_amount),
+                    );
+                    settotalComprehensiveIncome2020(
+                        Math.sign(currentAssetsArray2020[0].thstrm_amount),
+                    );
+                    settotalComprehensiveIncome2019(
+                        Math.sign(currentAssetsArray2019[0].thstrm_amount),
+                    );
+                    settotalComprehensiveIncome2018(
+                        Math.sign(currentAssetsArray2018[0].thstrm_amount),
+                    );
+                }
+            } else {
+                setNoDataPrint(true);
+                console.log('데이터없음');
+            }
         }
     }, [fatherArray2021, fatherArray2020, fatherArray2019, fatherArray2018]);
     useEffect(() => {
@@ -239,15 +299,22 @@ const AccountingFraud = () => {
 
     return (
         <Induty>
-            <br />
-            <br />
-            종목명 : {name} <br />
-            1이면 양수(흑자)라는 뜻이고 -1이면 음수(적자)라는 뜻임 <br />
-            2021 :{totalComprehensiveIncome2021} <br />
-            2020 : {totalComprehensiveIncome2020} <br />
-            2019 : {totalComprehensiveIncome2019} <br />
-            2018 : {totalComprehensiveIncome2018} <br />
-            분식가능성점수 : {accountingFraudPoint} <br />
+            {noDataPrint ? (
+                '데이터 없슬 때 띄울 화면'
+            ) : (
+                <div>
+                    <br />
+                    <br />
+                    종목명 : {name} <br />
+                    1이면 양수(흑자)라는 뜻이고 -1이면 음수(적자)라는 뜻임{' '}
+                    <br />
+                    2021 :{totalComprehensiveIncome2021} <br />
+                    2020 : {totalComprehensiveIncome2020} <br />
+                    2019 : {totalComprehensiveIncome2019} <br />
+                    2018 : {totalComprehensiveIncome2018} <br />
+                    분식가능성점수 : {accountingFraudPoint} <br />
+                </div>
+            )}
         </Induty>
     );
 };
