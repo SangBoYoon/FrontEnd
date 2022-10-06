@@ -212,7 +212,7 @@ const Head = styled.div`
     > p {
         font-family: 'Spoqa Han Sans Neo';
         font-style: normal;
-        font-weight: 700;
+        font-weight: 400;
         font-size: 23px;
         line-height: 29px;
         color: #e2e2e2;
