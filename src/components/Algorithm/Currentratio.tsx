@@ -1,12 +1,35 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+type currentRatioType = {
+    account_detail?: string;
+    account_id?: string;
+    account_nm?: string;
+    bfefrmtrm_amount?: string;
+    bfefrmtrm_nm?: string;
+    bsns_year?: string;
+    corp_code?: string;
+    currency?: string;
+    frmtrm_amount?: string;
+    frmtrm_nm?: string;
+    ord?: string;
+    rcept_no?: string;
+    reprt_code?: string;
+    sj_div?: string;
+    sj_nm?: string;
+    thstrm_amount?: string;
+    thstrm_nm?: string;
+};
+
 const Currentratio = () => {
     const [name, setName] = useState<string>('');
     // 종목명
-    const [currentAssets, setCurrentAssets] = useState(0);
+    const [currentAssets, setCurrentAssets] = useState<any>(null);
+    // let currentAssets = 0;
     // 유동자산
     const [currentLiabilities, setCurrentLiabilities] = useState(0);
     // 유동부채
@@ -18,10 +41,11 @@ const Currentratio = () => {
     // 유동성키워드
     const [currentratioExplanation, setCurrentratioExplanation] = useState('');
     // 유동비율 설명
+    const [fatherArray, setFatherArray] = useState([]);
 
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: '/api/company.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -52,14 +76,25 @@ const Currentratio = () => {
         })
             .then((res) => {
                 console.log(res.data.list);
-                setCurrentAssets(res.data.list[0].thstrm_amount);
+                setFatherArray(res.data.list);
+                // console.log(res.data.list);
+                // setCurrentAssets(res.data.list[0].thstrm_amount);
                 setCurrentLiabilities(res.data.list[15].thstrm_amount);
             })
             .catch((err) => {
                 console.error(err);
             });
-        // 재무제표의 재무상태표-유동자산,유동부채 데이터를 가져옴
     }, []);
+
+    useEffect(() => {
+        if (fatherArray.length !== 0) {
+            const currentAssetsArray: any = fatherArray.filter(
+                (man: currentRatioType) => man.account_nm === '유동자산',
+            );
+            setCurrentAssets(currentAssetsArray[0].thstrm_amount);
+        }
+    }, [fatherArray]);
+
     currentratio = Math.floor((currentAssets / currentLiabilities) * 100);
     // 유동자산,유동부채 데이터를 이용해 유동비율을 계산함
     currentratioPoint = (currentratio / 200) * 100;
@@ -96,7 +131,7 @@ const Currentratio = () => {
             유동비율 : {currentratio}&#37; <br />
             점수 : {currentratioPoint} 점 <br />
             유동성 : {currentratioSafety} <br />
-            설명 : {currentratioExplanation}
+            설명 : {currentratioExplanation}dddddcddd
         </Induty>
     );
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import SearchInput from './components/SearchInput';
 
 const App: React.FC = () => {
     return (
@@ -15,7 +14,6 @@ const App: React.FC = () => {
                     Google
                 </a>
             </button>
-            <SearchInput />
         </div>
     );
 };
