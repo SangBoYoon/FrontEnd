@@ -27,11 +27,18 @@ const StockFinder: React.FC = () => {
             .then((res) => {
                 setCorps(res.data.data);
                 setSortedCorps(
-                    corps.filter((v) => v.corpCategory === category),
+                    res.data.data.filter(
+                        (v: { corpCategory: string }) =>
+                            v.corpCategory === category,
+                    ),
                 );
             })
             .catch((err) => console.log(err));
     };
+
+    useEffect(() => {
+        getAxiosCategory(category);
+    }, []);
 
     useEffect(() => {
         if (category !== '전체') {

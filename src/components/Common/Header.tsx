@@ -114,7 +114,9 @@ const Header: React.FC = () => {
                     <li>
                         <Link to="/service">서비스 소개</Link>
                     </li>
-                    <li>주식찾기</li>
+                    <li>
+                        <Link to="/corporations">주식찾기</Link>
+                    </li>
                     <li>주요종목</li>
                 </ul>
             </MenuWrap>

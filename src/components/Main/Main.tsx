@@ -17,25 +17,25 @@ const Main: React.FC = () => {
     const { user } = useSelector((state: RootState) => ({
         user: state.user.email,
     }));
-    if (user) {
-        useEffect(() => {
+
+    useEffect(() => {
+        if (user) {
             const accessToken = localStorage.getItem('accessToken') || '';
             let bookmark: corpDataTypeBookmark[];
             axios
-                .create({ headers: { Authorization: `Bearer ${accessToken}` } })
+                .create({
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                })
                 .get('/accounter/bookmark')
                 .then((res) => {
                     bookmark = res.data.data;
-                    console.log(bookmark);
                     dispatch(setUserBookmarkList(bookmark));
                 })
                 .catch(() => {
                     console.log('bookmark load fail');
                 });
-        }, []);
-    }
+        }
 
-    useEffect(() => {
         const categoryTempData = CategoryData;
         const newTempArr = [];
         for (let i = 0; i < 7; i += 1) {
@@ -45,6 +45,7 @@ const Main: React.FC = () => {
         }
         setNewArr(newTempArr);
     }, []);
+
     return (
         <div className="main">
             <SearchWrap>

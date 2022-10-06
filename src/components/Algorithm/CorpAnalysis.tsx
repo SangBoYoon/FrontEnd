@@ -855,19 +855,14 @@ const CorpAnalysis: React.FC = () => {
                             d="M264.708 90.5468C262.915 88.9796 261.575 87.5168 260.565 85.3227C260.2 84.5391 258.981 84.9918 259.347 85.7929C260.113 87.4646 261.105 88.9622 262.428 90.2856C263.594 91.4349 264.621 92.1663 263.855 93.9424C263.368 95.0743 262.01 96.1366 261.122 96.9202C260.496 97.46 261.331 98.5396 261.958 97.9998C263.298 96.8331 266.396 94.3255 266.013 92.2185C265.874 91.4523 265.265 91.0518 264.725 90.5642L264.708 90.5468Z"
                             fill="#FFAB91"
                         />
-                    </g>
-                    <defs>
-                        <filter
-                            id="filter0_d_439_2"
-                            x="167"
                             y="14"
                             width="255.374"
                             height="560"
                             filterUnits="userSpaceOnUse"
-                            color-interpolation-filters="sRGB"
+                            colorInterpolationFilters="sRGB"
                         >
                             <feFlood
-                                flood-opacity="0"
+                                floodOpacity="0"
                                 result="BackgroundImageFix"
                             />
                             <feColorMatrix
@@ -903,8 +898,8 @@ const CorpAnalysis: React.FC = () => {
                             y2="225.328"
                             gradientUnits="userSpaceOnUse"
                         >
-                            <stop stop-color="#414182" />
-                            <stop offset="1" stop-color="#7171E3" />
+                            <stop stopColor="#414182" />
+                            <stop offset="1" stopColor="#7171E3" />
                         </linearGradient>
                     </defs>
                 </BannerSvg>
