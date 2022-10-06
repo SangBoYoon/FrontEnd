@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ToolsIntroductionTupel from './ToolsIntroductionTupel';
 
 const ServiceIntro: React.FC = () => {
     return (
@@ -88,13 +89,87 @@ const ServiceIntro: React.FC = () => {
                         분식가능성 분석
                     </ToolsHeaderTag>
                 </ToolsHeader>
+                <ToolsBody>
+                    <ToolsIntroductionTupel
+                        toolsName="😌 수익 안정성 분석"
+                        toolsHeading="매출이 꾸준히 나와요."
+                        toolsParagraph={
+                            <>
+                                어카운터에서는 매출이 꾸준히 유지되는
+                                <br />
+                                안정성 있는 기업을 알려줘요.
+                            </>
+                        }
+                        srcValue="./images/toolsImg1.png"
+                        altValue="toolsImg1"
+                        direction="row"
+                    />
+                    <ToolsIntroductionTupel
+                        toolsName="😮 관리종목/상장폐지 위험 분석"
+                        toolsHeading="거래가 막힐 수도 있어요."
+                        toolsParagraph={
+                            <>
+                                관리가 필요한 종목 및 상장폐지 위험이
+                                <br />
+                                있는 기업에 대한 분석결과를 제공해요.
+                            </>
+                        }
+                        srcValue="./images/toolsImg2.png"
+                        altValue="toolsImg2"
+                        direction="row-reverse"
+                    />
+                    <ToolsIntroductionTupel
+                        toolsName="🙂 유동비율 분석"
+                        toolsHeading="기업의 자금이 유연해요."
+                        toolsParagraph={
+                            <>
+                                기업의 유동자산과 유동부채에 대한 <br />
+                                정보를 제공해요.
+                            </>
+                        }
+                        srcValue="./images/toolsImg3.png"
+                        altValue="toolsImg3"
+                        direction="row"
+                    />
+                    <ToolsIntroductionTupel
+                        toolsName="🤨 분식가능성 분석"
+                        toolsHeading="기업의 이익이 수상해요."
+                        toolsParagraph={
+                            <>
+                                기업의 이익의 변화와 분식가능성에 대한
+                                <br />
+                                정보를 제공해요.
+                            </>
+                        }
+                        srcValue="./images/toolsImg4.png"
+                        altValue="toolsImg4"
+                        direction="row-reverse"
+                    />
+                </ToolsBody>
+                <ToolsFooter>
+                    <p>
+                        어카운터는 4가지의 재무분석 알고리즘을 이용하여
+                        <br />
+                        투자자 분들에게 유용한 정보를 제공합니다.
+                    </p>
+                </ToolsFooter>
             </Tools>
+            <Bottom>
+                <BottomText>
+                    투자자 여러분들의 <strong>성투</strong>를 기원합니다.
+                </BottomText>
+                <BottomImg
+                    src="./images/serviceBottom.png"
+                    alt="serviceBottom"
+                />
+            </Bottom>
         </Inner>
     );
 };
 
 const Inner = styled.div`
     height: 700vh;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -198,14 +273,19 @@ const ReasonIllustrationParagraph = styled.p`
     color: #d9d9d9;
 `;
 
-const Tools = styled.section``;
+const Tools = styled.section`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
 
 const ToolsHeader = styled.div`
+    width: 100%;
     display: flex;
     margin-top: 114px;
     flex-direction: column;
     align-items: center;
-    width: 100vw;
     height: 731px;
     background: linear-gradient(180deg, #3c3d44 0%, rgba(60, 61, 68, 0) 100%);
 `;
@@ -233,6 +313,41 @@ const ToolsHeaderTag = styled.button<ToolsHeaderTagTypes>`
     margin-top: 11px;
 `;
 
-const ToolsBody = styled.div``;
+const ToolsBody = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
 
+const ToolsFooter = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 745px;
+    height: 125px;
+    border-radius: 29px;
+    background-color: #d9d9d9;
+    margin-top: 60px;
+    p {
+        text-align: center;
+        font-size: 23px;
+        color: black;
+    }
+`;
+
+const Bottom = styled.div`
+    margin-top: 400px;
+`;
+const BottomText = styled.p`
+    font-weight: 700;
+    font-size: 40px;
+    strong {
+        color: #92d8c7;
+    }
+`;
+const BottomImg = styled.img`
+    position: relative;
+    bottom: 100px;
+    left: 240px;
+`;
 export default ServiceIntro;
