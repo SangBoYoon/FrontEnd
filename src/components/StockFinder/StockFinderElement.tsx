@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -15,13 +15,7 @@ const DrinkListElement: React.FC<corpType> = ({
 }) => {
     return (
         <LinkWrap to={`/StockFinder/${corpCode}`} key={corpCode}>
-            <Contents>
-                <CorpsInfo>
-                    <CorpInfo>
-                        {corpName} {corpCode} {corpCategory}
-                    </CorpInfo>
-                </CorpsInfo>
-            </Contents>
+            <CorpInfo>{corpName}</CorpInfo>
         </LinkWrap>
     );
 };
@@ -32,22 +26,17 @@ const LinkWrap = styled(Link)`
     text-decoration: none;
 `;
 
-const Contents = styled.div`
-    margin-top: 103px;
-`;
-
-const CorpsInfo = styled.div``;
-
 const CorpInfo = styled.div`
+    margin-bottom: 37px;
+    margin-top: 18px;
+    font-weight: 700;
+    font-size: 20px;
     width: 279px;
     height: 215px;
     background: #26272b;
     border-radius: 15px;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     color: white;
 `;
