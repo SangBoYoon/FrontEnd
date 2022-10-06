@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-
+import { RootState } from '../../store/config';
 import StockCategoryBtn from './StockCategoryBtn';
 import StockFinderElement from './StockFinderElement';
-import { RootState } from '../store/config';
 
 type corpType = {
     corpCode: string;
@@ -28,11 +27,18 @@ const StockFinder: React.FC = () => {
             .then((res) => {
                 setCorps(res.data.data);
                 setSortedCorps(
-                    corps.filter((v) => v.corpCategory === category),
+                    res.data.data.filter(
+                        (v: { corpCategory: string }) =>
+                            v.corpCategory === category,
+                    ),
                 );
             })
             .catch((err) => console.log(err));
     };
+
+    useEffect(() => {
+        getAxiosCategory(category);
+    }, []);
 
     useEffect(() => {
         if (category !== '전체') {

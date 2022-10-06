@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
-
 import { combineReducers } from 'redux';
-
+import handleLoginModalSlice from './slices/handleLoginModalSlice';
 import listCategorySlice from './slices/listCategorySlice';
+import userBookmarkListSlice from './slices/userBookmarkListSlice';
+import userSlice from './slices/userSlice';
 
 const rootReducer = combineReducers({
+    userBookmarkList: userBookmarkListSlice,
+    handleLoginModal: handleLoginModalSlice,
+    user: userSlice,
     listCategory: listCategorySlice,
 });
 

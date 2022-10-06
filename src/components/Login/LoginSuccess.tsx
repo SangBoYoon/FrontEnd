@@ -1,27 +1,28 @@
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { userAPI } from '../../features/userAPI';
+import { setAccessToken, setRefreshToken } from '../../services/tokenControl';
 
 const LoginSuccess: React.FC = () => {
+    const dispatch = useDispatch();
     const location = useLocation();
-    const navigate = useNavigate();
 
     const fn = () => {
         const params = new URLSearchParams(location.search);
 
-        console.log(params.get('accessToken'));
-        console.log(params.get('refreshToken'));
-
         const accessToken = params.get('accessToken') || '';
         const refreshToken = params.get('refreshToken') || '';
 
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+        userAPI(dispatch);
     };
 
     useEffect(() => {
         if (!location.search) return;
         fn();
-        navigate('/');
+        window.location.replace('/');
     }, []);
 
     return <div>LoginSuccess</div>;

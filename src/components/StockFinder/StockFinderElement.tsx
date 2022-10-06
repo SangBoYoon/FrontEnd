@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -14,7 +14,7 @@ const DrinkListElement: React.FC<corpType> = ({
     corpCategory,
 }) => {
     return (
-        <LinkWrap to={`/StockFinder/${corpCode}`} key={corpCode}>
+        <LinkWrap to={`/corporations/${corpCode}`} key={corpCode}>
             <CorpInfo>{corpName}</CorpInfo>
         </LinkWrap>
     );
