@@ -169,7 +169,6 @@ const ServiceIntro: React.FC = () => {
 
 const Inner = styled.div`
     height: 700vh;
-
     display: flex;
     flex-direction: column;
     align-items: center;
