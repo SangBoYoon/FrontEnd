@@ -118,13 +118,8 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
 
     currentratio = Math.floor((currentAssets / currentLiabilities) * 100);
     // 유동자산,유동부채 데이터를 이용해 유동비율을 계산함
-
-    if (currentratio > 200) {
-        currentratioPoint = 100;
-    } else {
-        currentratioPoint = (currentratio / 200) * 100;
-    }
-    // 유동비율을 200% 만점을 기준으로 점수를 계산함, 200%이상일 시 만점 처리함.
+    currentratioPoint = (currentratio / 200) * 100;
+    // 유동비율을 200% 만점을 기준으로 점수를 계산함
     useEffect(() => {
         switch (true) {
             case currentratio <= 100:
@@ -163,5 +158,12 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
 };
 
 const Inner = styled.div``;
+
+const UpperConatiner = styled.div`
+    display: flex;
+    height: 265px;
+`;
+
+const currentAssets = styled.div``;
 
 export default Currentratio;

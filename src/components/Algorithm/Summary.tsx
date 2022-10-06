@@ -415,7 +415,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    const [name, setName] = useState<string>('');
+    const [name3, setName3] = useState<string>('');
     // 종목명
     const [currentAssets, setCurrentAssets] = useState<any>(0);
     // 유동자산
@@ -442,7 +442,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
             },
         })
             .then((res) => {
-                setName(res.data.corp_name);
+                setName3(res.data.corp_name3);
             })
             .catch((err) => {
                 console.error(err);
@@ -478,7 +478,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     }, []);
 
     useEffect(() => {
-        if (dataEx === true) {
+        if (noDataEx3 === false) {
             if (fatherArray !== null && fatherArray !== undefined) {
                 const currentAssetsArray: any = fatherArray.filter(
                     (man: currentRatioType) => man.account_nm === '유동자산',
@@ -503,8 +503,13 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
 
     currentratio = Math.floor((currentAssets / currentLiabilities) * 100);
     // 유동자산,유동부채 데이터를 이용해 유동비율을 계산함
-    currentratioPoint = (currentratio / 200) * 100;
-    // 유동비율을 200% 만점을 기준으로 점수를 계산함
+
+    if (currentratio > 200) {
+        currentratioPoint = 100;
+    } else {
+        currentratioPoint = (currentratio / 200) * 100;
+    }
+    // 유동비율을 200% 만점을 기준으로 점수를 계산함, 200%이상일 시 만점 처리함.
     useEffect(() => {
         switch (true) {
             case currentratio <= 100:
@@ -840,11 +845,12 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                     setNoSummary(true);
                     setSummaryScore(0);
                 } else if (dataExValue.length === 4) {
-                    const v =
+                    const v = Math.round(
                         score * 0.25 +
-                        delistReason * 0.25 +
-                        currentratioPoint * 0.25 +
-                        accountingFraudPoint * 0.25;
+                            delistReason * 0.25 +
+                            currentratioPoint * 0.25 +
+                            accountingFraudPoint * 0.25,
+                    );
                     setSummaryScore(v);
                     setCalLoading(true);
                 } else if (dataExValue.length === 3) {
@@ -863,7 +869,8 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                     setSummaryScore(v);
                     setCalLoading(true);
                 } else {
-                    setSummaryScore(totalScore[0]);
+                    const v = Math.round(totalScore[0]);
+                    setSummaryScore(v);
                     setCalLoading(true);
                 }
             }
