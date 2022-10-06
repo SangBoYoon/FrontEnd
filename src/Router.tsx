@@ -9,6 +9,7 @@ import Footer from './components/Common/Footer';
 import ServiceIntro from './components/ServiceIntro';
 import StockFinder from './components/StockFinder/StockFinder';
 import CorpAnalysis from './components/Algorithm/CorpAnalysis';
+import Summary from './components/Algorithm/Summary';
 
 const Router = () => {
     return (
@@ -22,6 +23,7 @@ const Router = () => {
                     path="/StockFinder/:corpCode"
                     element={<CorpAnalysis />}
                 />
+
                 <Route path="/login/token" element={<LoginSuccess />} />
                 <Route path="/CorporationInfo" element={<CorporationInfo />} />
             </Routes>

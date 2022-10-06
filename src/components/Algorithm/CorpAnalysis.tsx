@@ -12,6 +12,7 @@ import AccountingFraud from './AccountingFraud';
 import Currentratio from './Currentratio';
 import DelistReason from './DelistReason';
 import CorpIntroduction from './CorpIntroduction';
+import Summary from './Summary';
 
 const CorpAnalysis: React.FC = () => {
     const { corpCode } = useParams<{ corpCode: string }>();
@@ -1010,7 +1011,7 @@ const CorpAnalysis: React.FC = () => {
                     ) : viewSelect[4] ? (
                         <AccountingFraud corpCode={corpCode!} />
                     ) : (
-                        '드디어마지막'
+                        <Summary corpCode={corpCode!} />
                     )}
                 </ModalWrapper>
             </Inner>
