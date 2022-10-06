@@ -168,12 +168,12 @@ const ServiceIntro: React.FC = () => {
 };
 
 const Inner = styled.div`
-    height: 700vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
     background-color: #1a1b1e;
+    padding-bottom: 300px;
 `;
 const ServiceIntroImg = styled.img`
     margin-top: 95px;
@@ -213,6 +213,7 @@ const TopTextBoxParagraph = styled.div`
     text-align: center;
     margin-top: 50px;
     font-size: 20px;
+    color: white;
 `;
 
 const Reason = styled.section``;
@@ -226,6 +227,7 @@ const ReasonHeaderBigHeading = styled.h2`
     text-align: center;
     font-size: 50px;
     font-weight: 700;
+    color: white;
 `;
 const ReasonHeaderSmallHeading = styled.p`
     font-size: 20px;
@@ -294,6 +296,7 @@ const ToolsHeaderHeading = styled.h2`
     font-size: 50px;
     font-weight: 700;
     margin-top: 128px;
+    color: white;
 `;
 
 interface ToolsHeaderTagTypes {
@@ -338,6 +341,7 @@ const Bottom = styled.div`
     margin-top: 400px;
 `;
 const BottomText = styled.p`
+    color: #ececec;
     font-weight: 700;
     font-size: 40px;
     strong {
