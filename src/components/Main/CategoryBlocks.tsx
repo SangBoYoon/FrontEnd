@@ -2,31 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import CategoryBlock from './CategoryBlock';
 
-const CategoryBlocks: React.FC = () => {
+type arrType = {
+    arr: Array<string>;
+};
+const CategoryBlocks: React.FC<arrType> = ({ arr }) => {
     return (
         <CategoryBlocksStyle>
             <ul>
-                <li>
-                    <CategoryBlock category="IT" />
-                </li>
-                <li>
-                    <CategoryBlock category="금융" />
-                </li>
-                <li>
-                    <CategoryBlock category="교육" />
-                </li>
-                <li>
-                    <CategoryBlock category="미디어" />
-                </li>
-                <li>
-                    <CategoryBlock category="건강" />
-                </li>
-                <li>
-                    <CategoryBlock category="생산성" />
-                </li>
-                <li>
-                    <CategoryBlock category="커뮤니티" />
-                </li>
+                {arr.map((item, index) => {
+                    return (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <li key={index}>
+                            <CategoryBlock category={item} />
+                        </li>
+                    );
+                })}
             </ul>
         </CategoryBlocksStyle>
     );

@@ -144,9 +144,7 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
     }, [currentratio]);
 
     return (
-        <Induty>
-            <br />
-            <br />
+        <Inner>
             종목명 : {name} <br />
             유동자산 : {currentAssets} 원 <br />
             유동부채 : {currentLiabilities} 원
@@ -154,13 +152,18 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
             유동비율 : {currentratio}&#37; <br />
             점수 : {currentratioPoint} 점 <br />
             유동성 : {currentratioSafety} <br />
-            설명 : {currentratioExplanation}dddddcddd
-        </Induty>
+            설명 : {currentratioExplanation}
+        </Inner>
     );
 };
 
-const Induty = styled.h1`
-    font-size: 50px;
+const Inner = styled.div``;
+
+const UpperConatiner = styled.div`
+    display: flex;
+    height: 265px;
 `;
+
+const currentAssets = styled.div``;
 
 export default Currentratio;

@@ -18,8 +18,8 @@ const CategoryBlockStyle = styled.div`
     border-radius: 15px;
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
-    font-weight: 700;
-    font-size: 23px;
+    font-weight: 400;
+    font-size: 17px;
     line-height: 29px;
     color: #ececec;
     display: flex;

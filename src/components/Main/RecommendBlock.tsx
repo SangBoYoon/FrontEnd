@@ -46,9 +46,7 @@ const RecommendBlock: React.FC<recommendBlockType> = ({
                     })
                     .get('/accounter/bookmark')
                     .then((res) => {
-                        const re = res.data.data;
-                        console.log(re);
-                        dispatch(setUserBookmarkList(re));
+                        dispatch(setUserBookmarkList(res.data.data));
                     })
                     .catch(() => {
                         console.log('bookmark load fail');

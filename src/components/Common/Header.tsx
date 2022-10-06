@@ -111,7 +111,9 @@ const Header: React.FC = () => {
             </LogoWrap>
             <MenuWrap>
                 <ul>
-                    <li>서비스 소개</li>
+                    <li>
+                        <Link to="/service">서비스 소개</Link>
+                    </li>
                     <li>주식찾기</li>
                     <li>주요종목</li>
                 </ul>
@@ -182,6 +184,10 @@ const MenuWrap = styled.div`
     right: 345px;
     > ul {
         > li {
+            > a {
+                text-decoration: none;
+                color: #ececec;
+            }
             margin-left: 95px;
         }
     }

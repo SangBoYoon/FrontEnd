@@ -1,16 +1,18 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../../store/config';
 import { setUserBookmarkList } from '../../store/slices/userBookmarkListSlice';
-import BlockWrap from './BlockWrap';
+import BlockWrap from '../Common/BlockWrap';
 import CategoryBlocks from './CategoryBlocks';
+import { CategoryData } from './CategoryData';
 import IntroduceBlock from './IntroduceBlock';
 import RecommendBlocks, { corpDataTypeBookmark } from './RecommendBlocks';
 import SearchInput from './SearchInput';
 
 const Main: React.FC = () => {
+    const [newArr, setNewArr] = useState<Array<string>>([]);
     const dispatch = useDispatch();
     const { user } = useSelector((state: RootState) => ({
         user: state.user.email,
@@ -33,6 +35,16 @@ const Main: React.FC = () => {
         }, []);
     }
 
+    useEffect(() => {
+        const categoryTempData = CategoryData;
+        const newTempArr = [];
+        for (let i = 0; i < 7; i += 1) {
+            const index = Math.floor(Math.random() * categoryTempData.length);
+            newTempArr.push(categoryTempData[index]);
+            categoryTempData.splice(index, 1);
+        }
+        setNewArr(newTempArr);
+    }, []);
     return (
         <div className="main">
             <SearchWrap>
@@ -49,7 +61,7 @@ const Main: React.FC = () => {
             </SearchWrap>
             <MainBody>
                 <BlockWrap title="추천 산업군">
-                    <CategoryBlocks />
+                    <CategoryBlocks arr={newArr} />
                 </BlockWrap>
                 <BlockWrap title="추천 품목">
                     <RecommendBlocks type="recommend" />
