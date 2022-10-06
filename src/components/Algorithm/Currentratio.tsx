@@ -159,11 +159,4 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
 
 const Inner = styled.div``;
 
-const UpperConatiner = styled.div`
-    display: flex;
-    height: 265px;
-`;
-
-const currentAssets = styled.div``;
-
 export default Currentratio;

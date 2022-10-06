@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { RootState } from '../store/config';
-import { setCategory } from '../store/slices/listCategorySlice';
+import { RootState } from '../../store/config';
+
+import { setCategory } from '../../store/slices/listCategorySlice';
 
 type DrinkCategoryBtnType = {
     category: string;
