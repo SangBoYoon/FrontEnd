@@ -1079,10 +1079,6 @@ const Banner = styled.div`
     justify-content: center;
 `;
 
-const BannerSvg = styled.svg`
-    margin-top: 21px;
-`;
-
 const NavWrapper = styled.div`
     background-color: red;
     width: 100%;
