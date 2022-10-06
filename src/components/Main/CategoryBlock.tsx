@@ -1,17 +1,29 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { setCategory } from '../../store/slices/listCategorySlice';
 
 type categoryBlockType = {
     category: string;
 };
 
 const CategoryBlock: React.FC<categoryBlockType> = ({ category }) => {
-    return <CategoryBlockStyle>{category}</CategoryBlockStyle>;
+    const dispatch = useDispatch();
+    const changeCategory = () => {
+        dispatch(setCategory(category));
+    };
+    return (
+        <CategoryBlockStyle to="/corporations" onClick={changeCategory}>
+            {category}
+        </CategoryBlockStyle>
+    );
 };
 
 export default CategoryBlock;
 
-const CategoryBlockStyle = styled.div`
+const CategoryBlockStyle = styled(Link)`
+    text-decoration: none;
     width: 147.52px;
     height: 51px;
     background: #2b2c31;

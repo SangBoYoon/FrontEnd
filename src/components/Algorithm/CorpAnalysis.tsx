@@ -712,8 +712,8 @@ const CorpAnalysis: React.FC = () => {
                             <path
                                 d="M326.876 214.671L335.735 203.491L338.764 208.611L356.708 185.068L361.129 194.628L370.929 189.735L376.046 196.247L388.403 179.13L393.99 182.578L400.517 177.841"
                                 stroke="white"
-                                stroke-miterlimit="10"
-                                stroke-linecap="round"
+                                strokeMiterlimit="10"
+                                strokeLinecap="round"
                             />
                             <path
                                 d="M366.177 217.771C365.463 221.01 363.079 223.395 359.841 224.092C357.37 224.632 358.379 228.428 360.833 227.888C365.324 226.913 368.944 223.343 369.936 218.85C370.476 216.395 366.716 215.298 366.159 217.771H366.177Z"
@@ -869,10 +869,10 @@ const CorpAnalysis: React.FC = () => {
                             width="1352.41"
                             height="561"
                             filterUnits="userSpaceOnUse"
-                            color-interpolation-filters="sRGB"
+                            colorInterpolationFilters="sRGB"
                         >
                             <feFlood
-                                flood-opacity="0"
+                                floodOpacity="0"
                                 result="BackgroundImageFix"
                             />
                             <feColorMatrix
@@ -907,10 +907,10 @@ const CorpAnalysis: React.FC = () => {
                             width="255.374"
                             height="560"
                             filterUnits="userSpaceOnUse"
-                            color-interpolation-filters="sRGB"
+                            colorInterpolationFilters="sRGB"
                         >
                             <feFlood
-                                flood-opacity="0"
+                                floodOpacity="0"
                                 result="BackgroundImageFix"
                             />
                             <feColorMatrix
@@ -946,8 +946,8 @@ const CorpAnalysis: React.FC = () => {
                             y2="225.328"
                             gradientUnits="userSpaceOnUse"
                         >
-                            <stop stop-color="#414182" />
-                            <stop offset="1" stop-color="#7171E3" />
+                            <stop stopColor="#414182" />
+                            <stop offset="1" stopColor="#7171E3" />
                         </linearGradient>
                     </defs>
                 </svg>

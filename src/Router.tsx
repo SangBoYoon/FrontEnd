@@ -18,9 +18,9 @@ const Router = () => {
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/service" element={<ServiceIntro />} />
-                <Route path="/StockFinder" element={<StockFinder />} />
+                <Route path="/corporations" element={<StockFinder />} />
                 <Route
-                    path="/StockFinder/:corpCode"
+                    path="/corporations/:corpCode"
                     element={<CorpAnalysis />}
                 />
                 <Route path="/login/token" element={<LoginSuccess />} />
