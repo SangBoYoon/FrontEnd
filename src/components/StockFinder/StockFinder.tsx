@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { RootState } from 'src/store/config';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../store/config';
 import StockCategoryBtn from './StockCategoryBtn';
 import StockFinderElement from './StockFinderElement';
 
