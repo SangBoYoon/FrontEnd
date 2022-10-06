@@ -91,7 +91,7 @@ const RecommendBlock: React.FC<recommendBlockType> = ({
 
     return (
         <RecommendBlockStyle>
-            <Link to={`/corp/${corpCode}`}>
+            <Link to={`/corporations/${corpCode}`}>
                 <div>
                     <Head>
                         <p>{corpName}</p>
