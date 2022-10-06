@@ -203,7 +203,7 @@ const TopTextBoxSmallHeading = styled.h1`
 const TopTextBoxBigHeading = styled.p`
     font-size: 66px;
     font-weight: 700;
-    color: #ffffff;
+    color: #ececec;
     strong {
         color: #0064ff;
     }
@@ -213,7 +213,7 @@ const TopTextBoxParagraph = styled.div`
     text-align: center;
     margin-top: 50px;
     font-size: 20px;
-    color: white;
+    color: #ececec;
 `;
 
 const Reason = styled.section``;
@@ -227,7 +227,7 @@ const ReasonHeaderBigHeading = styled.h2`
     text-align: center;
     font-size: 50px;
     font-weight: 700;
-    color: white;
+    color: #ececec;
 `;
 const ReasonHeaderSmallHeading = styled.p`
     font-size: 20px;
@@ -296,7 +296,7 @@ const ToolsHeaderHeading = styled.h2`
     font-size: 50px;
     font-weight: 700;
     margin-top: 128px;
-    color: white;
+    color: #ececec;
 `;
 
 interface ToolsHeaderTagTypes {
