@@ -109,7 +109,7 @@ const CorpAnalysis: React.FC = () => {
                             ])
                         }
                     >
-                        분석가능성
+                        전체요약
                     </button>
                 </NavWrapper>
                 <div>
