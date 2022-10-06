@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { RootState } from 'src/store/config';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-
 import StockCategoryBtn from './StockCategoryBtn';
 import StockFinderElement from './StockFinderElement';
-import { RootState } from '../store/config';
 
 type corpType = {
     corpCode: string;

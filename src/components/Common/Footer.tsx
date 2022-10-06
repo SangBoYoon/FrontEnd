@@ -26,58 +26,57 @@ const Footer: React.FC = () => {
 export default Footer;
 
 const FooterWrapper = styled.div`
-    position: fixed;
-    bottom: 0;
+    position: relative;
     width: 100%;
-    height: 195px;
+    height: 109px;
     background: #3c3d44;
 `;
 
 const BoldText = styled.p`
-    width: 141px;
+    width: 121px;
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 12px;
+    line-height: 15px;
     color: #ececec;
     display: flex;
     &:nth-of-type(1)::after {
         content: '';
-        left: 127px;
+        left: 107px;
         top: 2px;
         position: absolute;
         width: 1px;
-        height: 14px;
+        height: 12.69px;
         background-color: #fff;
     }
-    margin-bottom: 26px;
+    margin-bottom: 18.18px;
 `;
 
 const SemiBoldText = styled.p`
-    width: 141px;
+    width: 121px;
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 10px;
+    line-height: 13px;
     color: #ececec;
-    margin-bottom: 14px;
+    margin-bottom: 6.74px;
 `;
 
 const Text = styled.p`
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 300;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 10px;
+    line-height: 13px;
     color: #ececec;
 `;
 
 const FooterLeft = styled.div`
     position: absolute;
-    left: 61px;
-    top: 47px;
+    left: 34px;
+    top: 20.37px;
     > div {
         display: flex;
     }
@@ -85,6 +84,13 @@ const FooterLeft = styled.div`
 
 const FooterRight = styled.p`
     position: absolute;
-    top: 128px;
-    right: 61px;
+    top: 72.33px;
+    right: 30px;
+
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13px;
+    color: #ececec;
 `;
