@@ -25,11 +25,14 @@ type currentRatioType = {
     thstrm_nm?: string;
 };
 
-const Currentratio = () => {
+type corpCodeType = {
+    corpCode: string;
+};
+
+const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
     const [name, setName] = useState<string>('');
     // 종목명
-    const [currentAssets, setCurrentAssets] = useState<any>(null);
-    // let currentAssets = 0;
+    const [currentAssets, setCurrentAssets] = useState<any>(0);
     // 유동자산
     const [currentLiabilities, setCurrentLiabilities] = useState(0);
     // 유동부채
@@ -41,7 +44,8 @@ const Currentratio = () => {
     // 유동성키워드
     const [currentratioExplanation, setCurrentratioExplanation] = useState('');
     // 유동비율 설명
-    const [fatherArray, setFatherArray] = useState([]);
+    const [fatherArray, setFatherArray] = useState<currentRatioType[]>([]);
+    const [dataEx, setDataEx] = useState(true);
 
     useEffect(() => {
         axios({
@@ -49,7 +53,7 @@ const Currentratio = () => {
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
-                corp_code: '00447502',
+                corp_code: `${corpCode}`,
             },
         })
             .then((res) => {
@@ -67,7 +71,7 @@ const Currentratio = () => {
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
-                corp_code: '00447502',
+                corp_code: `${corpCode}`,
                 bsns_year: '2021',
                 reprt_code: '11011',
                 fs_div: 'OFS',
@@ -75,11 +79,13 @@ const Currentratio = () => {
             // open dart api를 통해 재무제표를 가져옴
         })
             .then((res) => {
-                console.log(res.data.list);
-                setFatherArray(res.data.list);
-                // console.log(res.data.list);
-                // setCurrentAssets(res.data.list[0].thstrm_amount);
-                setCurrentLiabilities(res.data.list[15].thstrm_amount);
+                if (res !== null && res !== undefined) {
+                    setFatherArray(res.data.list);
+                    setDataEx(true);
+                } else {
+                    setDataEx(false);
+                    console.log('dart open api에 데이터가 존재하지 않음');
+                }
             })
             .catch((err) => {
                 console.error(err);
@@ -87,11 +93,26 @@ const Currentratio = () => {
     }, []);
 
     useEffect(() => {
-        if (fatherArray.length !== 0) {
-            const currentAssetsArray: any = fatherArray.filter(
-                (man: currentRatioType) => man.account_nm === '유동자산',
-            );
-            setCurrentAssets(currentAssetsArray[0].thstrm_amount);
+        if (dataEx === true) {
+            if (fatherArray !== null && fatherArray !== undefined) {
+                const currentAssetsArray: any = fatherArray.filter(
+                    (man: currentRatioType) => man.account_nm === '유동자산',
+                );
+                const currentLiabilitiesArray: any = fatherArray.filter(
+                    (man: currentRatioType) => man.account_nm === '유동부채',
+                );
+                if (
+                    currentAssetsArray[0] !== null &&
+                    currentAssetsArray[0] !== undefined &&
+                    currentLiabilitiesArray[0] !== null &&
+                    currentLiabilitiesArray[0] !== undefined
+                ) {
+                    setCurrentAssets(currentAssetsArray[0].thstrm_amount);
+                    setCurrentLiabilities(
+                        currentLiabilitiesArray[0].thstrm_amount,
+                    );
+                }
+            }
         }
     }, [fatherArray]);
 
@@ -124,6 +145,8 @@ const Currentratio = () => {
 
     return (
         <Induty>
+            <br />
+            <br />
             종목명 : {name} <br />
             유동자산 : {currentAssets} 원 <br />
             유동부채 : {currentLiabilities} 원
