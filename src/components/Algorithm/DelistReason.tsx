@@ -32,8 +32,6 @@ type corpCodeType = {
 };
 
 const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
-    const [name, setName] = useState<string>('');
-
     const [financialStatements2021, setFinancialStatements2021] = useState<
         currentRatioType[]
     >([]);
@@ -67,24 +65,6 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
 
     const [dataEx, setDataEx] = useState(true);
     const [noDataPrint, setNoDataPrint] = useState(false); // 2개년 데이터 없을 시
-
-    useEffect(() => {
-        axios({
-            url: '/api/company.json',
-            method: 'get',
-            params: {
-                crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
-                corp_code: `${corpCode}`,
-            },
-        })
-            .then((res) => {
-                setName(res.data.corp_name);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-        // open dart api를 통해 주식 종목명을 가져옴
-    }, []);
 
     useEffect(() => {
         axios({
@@ -128,6 +108,7 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
             .then((res) => {
                 if (res !== null && res !== undefined) {
                     setFinancialStatements2020(res.data.list);
+                    console.log(res.data.list);
                 } else {
                     setDataEx(false);
                     console.log('dart open api에 데이터가 존재하지 않음');
@@ -151,7 +132,8 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
                         (man: currentRatioType) =>
                             man.account_nm === '수익(매출액)' ||
                             man.account_nm === '매출액' ||
-                            man.account_nm === 'I. 매출액',
+                            man.account_nm === 'I. 매출액' ||
+                            man.account_nm === '매출',
                     );
 
                 const currentAssetsArray2020: any =
@@ -159,7 +141,8 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
                         (man: currentRatioType) =>
                             man.account_nm === '수익(매출액)' ||
                             man.account_nm === '매출액' ||
-                            man.account_nm === 'I. 매출액',
+                            man.account_nm === 'I. 매출액' ||
+                            man.account_nm === '매출',
                     );
 
                 const CapitalArray2021: any = financialStatements2021.filter(

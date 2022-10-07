@@ -77,7 +77,7 @@ const Header = styled.div`
 
 const CorpNameCategoryContainer = styled.div`
     margin-left: 27px;
-    margin-top: 22px;
+    margin-top: 24px;
     display: flex;
     align-items: center;
     h1 {

@@ -444,7 +444,6 @@ const WhiteBoxName = styled.h1`
     font-size: 13px;
     color: #4f4f4f;
     margin-left: 20px;
-    margin-top: 20px;
 `;
 
 const LeftBoxLine = styled.div`
