@@ -475,7 +475,7 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
     return (
         <div>
             {noDataPrint ? (
-                '데이터 없슬 때 띄울 화면'
+                '데이터 없슬 때 띄울 화면d'
             ) : (
                 <>
                     <UpperTupel>

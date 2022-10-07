@@ -335,21 +335,29 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                     financialStatements2021.filter(
                         (man: currentRatioType) =>
                             man.account_nm === '수익(매출액)' ||
-                            man.account_nm === '매출액',
+                            man.account_nm === '매출액' ||
+                            man.account_nm === 'I. 매출액' ||
+                            man.account_nm === '매출',
                     );
 
                 const currentAssetsArray2020: any =
                     financialStatements2020.filter(
                         (man: currentRatioType) =>
                             man.account_nm === '수익(매출액)' ||
-                            man.account_nm === '매출액',
+                            man.account_nm === '매출액' ||
+                            man.account_nm === 'I. 매출액' ||
+                            man.account_nm === '매출',
                     );
 
                 const CapitalArray2021: any = financialStatements2021.filter(
-                    (man: currentRatioType) => man.account_nm === '자본금',
+                    (man: currentRatioType) =>
+                        man.account_nm === '자본금' ||
+                        man.account_nm === 'I. 자본금',
                 );
                 const totalequity2021: any = financialStatements2021.filter(
-                    (man: currentRatioType) => man.account_nm === '자본총계',
+                    (man: currentRatioType) =>
+                        man.account_nm === '자본총계' ||
+                        man.account_nm === '자본과부채총계',
                 );
 
                 if (
@@ -936,32 +944,45 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                             <Box2>
                                 <h2>종합 진단</h2>
                                 <div>
-                                    {score <= 100 && score < 75 ? (
+                                    {summaryScore <= 100 &&
+                                    summaryScore > 75 ? (
                                         <h1>
-                                            {name3}은 재무건전성이 훌륭해요.
+                                            🤩 {name3} 은(는) 재무건전성이
+                                            훌륭해요.
                                         </h1>
-                                    ) : score <= 75 && score > 50 ? (
+                                    ) : summaryScore <= 75 &&
+                                      summaryScore > 50 ? (
                                         <h1>
-                                            {name3}은 재무건정성이 아쉬워요.
-                                            재무 외에 다른 요소도 확인할 필요가
-                                            있어요.
+                                            😏 {name3} 은(는) 재무건정성이
+                                            아쉬워요. 재무 외에 다른 요소도
+                                            확인할 필요가 있어요.
                                         </h1>
-                                    ) : score <= 50 && score > 25 ? (
+                                    ) : summaryScore <= 50 &&
+                                      summaryScore > 25 ? (
                                         <h1>
-                                            {name3}은 재무건정성에 유의할 필요가
-                                            있어요. 투자에 주의하세요.
+                                            🧐 {name3} 은(는) 재무건정성에
+                                            유의할 필요가 있어요. 투자에
+                                            주의하세요.
                                         </h1>
                                     ) : (
                                         <h1>
-                                            {name3}은 재무건전성이 불안해요.
-                                            투자에 매우 유의하세요.
+                                            😖 {name3} 은(는) 재무건전성이
+                                            불안해요. 투자에 매우 유의하세요.
                                         </h1>
                                     )}
 
                                     <h3>{summaryScore}점</h3>
                                 </div>
 
-                                <h4>*정확도 : 매우좋음 </h4>
+                                {exact === 4 ? (
+                                    <h4> *정확도 : 매우좋음 </h4>
+                                ) : exact === 3 ? (
+                                    <h4> *정확도 : 좋음 </h4>
+                                ) : exact === 2 ? (
+                                    <h4> *정확도 : 안좋음</h4>
+                                ) : (
+                                    <h4> *정확도 : 매우 안좋음 </h4>
+                                )}
                             </Box2>
                         </div>
 
@@ -1067,7 +1088,7 @@ const Box2 = styled.div`
 
     h1 {
         font-weight: 700;
-        font-size: 26px;
+        font-size: 22px;
         line-height: 40px;
         /* identical to box height */
         color: #4f4f4f;
