@@ -1036,7 +1036,6 @@ const NavWrapper = styled.div`
         width: 40px;
     }
 
-    ,
     button:nth-child(3),
     button:nth-child(7),
     button:nth-child(9) {
