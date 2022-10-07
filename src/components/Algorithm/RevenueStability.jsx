@@ -152,7 +152,7 @@ const RevenueStability = ({ corpCode }) => {
                         Number(value1[0].thstrm_amount),
                     ];
 
-                    const v: number = jStat.corrcoeff(
+                    const v = jStat.corrcoeff(
                         result,
                         [2017, 2018, 2019, 2020, 2021],
                     );
