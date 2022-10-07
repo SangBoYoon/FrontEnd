@@ -238,6 +238,7 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
         }
         if (currentAssets > currentLiabilities) {
             setCurrentAssetsVScurrentLiabilities(true);
+            setSlicePoint(Math.floor(currentratioPoint));
         } else setCurrentAssetsVScurrentLiabilities(false);
         setSlicePoint(Math.floor(currentratioPoint));
     }, [currentAssets]);
@@ -314,7 +315,8 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
 };
 
 const Inner = styled.div`
-    margin-top: 24px;
+    margin-top: 13px;
+    margin-left: 18px;
 `;
 
 const UpperTupel = styled.div`
