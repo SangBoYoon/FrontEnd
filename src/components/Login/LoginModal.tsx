@@ -27,16 +27,6 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
     const [inputRegisterPassword, setInputRegisterPassword] =
         useState<string>('');
 
-    const [validation, setValidation] = useState<{
-        email: string;
-        password: string;
-        nickName: string;
-    }>({
-        email: '',
-        password: '',
-        nickName: '',
-    });
-
     const handleState = (
         e: React.ChangeEvent<HTMLInputElement>,
         setState: React.Dispatch<React.SetStateAction<string>>,
@@ -95,8 +85,6 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
                 }
             })
             .catch((e) => {
-                const { status } = e.response;
-                const { reason } = e.response.data;
                 console.log(e);
             });
     };

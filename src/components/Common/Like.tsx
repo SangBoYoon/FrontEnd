@@ -3,10 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import styled from 'styled-components';
 import { getAccessToken } from '../../services/tokenControl';
-import {
-    corpLikeType,
-    setUserLikeList,
-} from '../../store/slices/userLikeListSlice';
+import { corpLikeType } from '../../store/slices/userLikeListSlice';
 import { setLoginModal } from '../../store/slices/handleLoginModalSlice';
 import { RootState } from '../../store/config';
 import { setCorps } from '../../store/slices/corpsLoadSlice';
