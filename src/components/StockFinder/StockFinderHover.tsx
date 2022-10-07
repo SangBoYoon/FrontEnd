@@ -103,8 +103,10 @@ const HoverHead = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 31px;
+    height: auto;
     > p {
+        width: 200px;
+        white-space: normal;
         font-family: 'Spoqa Han Sans Neo';
         font-style: normal;
         font-weight: 700;

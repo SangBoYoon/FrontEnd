@@ -85,6 +85,8 @@ const Head = styled.div`
     flex-direction: row;
     justify-content: space-between;
     > p {
+        width: 180px;
+        white-space: normal;
         font-family: 'Spoqa Han Sans Neo';
         font-style: normal;
         font-weight: 400;

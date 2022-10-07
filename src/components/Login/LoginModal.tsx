@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Lottie from 'lottie-react';
 import styled from 'styled-components';
+import { RootState } from '../../store/config';
+import { setLoginDistribute } from '../../store/slices/loginDistributeSlice';
 import { onSilentRefresh } from '../../services/reissueToken';
 import LoginLottie from './loginlottie.json';
 import { setAccessToken, setRefreshToken } from '../../services/tokenControl';
@@ -26,6 +28,10 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
         useState<string>('');
     const [inputRegisterPassword, setInputRegisterPassword] =
         useState<string>('');
+
+    const loginDistribute = useSelector((state: RootState) => {
+        return state.loginDistribute.register;
+    });
 
     const handleState = (
         e: React.ChangeEvent<HTMLInputElement>,
@@ -55,18 +61,26 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
                     console.log(inputRegisterPassword);
                     // eslint-disable-next-line no-alert
                     alert('회원가입이 완료되었습니다.');
-                    onClickLogin();
+                    onClickLogin(
+                        undefined,
+                        inputRegisterEmail,
+                        inputRegisterPassword,
+                    );
                 });
         } catch (err) {
             console.log(err);
         }
     };
 
-    const onClickLogin = () => {
+    const onClickLogin = (
+        event?: React.MouseEvent<HTMLElement>,
+        inputRegisterEmail?: string,
+        inputRegisterPassword?: string,
+    ) => {
         axios
             .post('/accounter/login', {
-                email: inputEmail,
-                password: inputPassword,
+                email: inputRegisterEmail || inputEmail,
+                password: inputRegisterPassword || inputPassword,
             })
             .then((res) => {
                 const { accessToken, refreshToken } = res.data.data;
@@ -90,20 +104,26 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
     };
 
     useEffect(() => {
-        if (register) {
+        if (loginDistribute) {
             setModalHeight('520');
         } else {
             setModalHeight('573');
         }
-    }, [register]);
+    }, [loginDistribute]);
+
+    const changeRegister = () => {
+        dispatch(setLoginDistribute(!loginDistribute));
+    };
 
     useEffect(() => {
+        if (!loginDistribute) {
+            setRegister(false);
+        } else {
+            setRegister(true);
+        }
         return setRegister(false);
     }, []);
 
-    const changeRegister = () => {
-        setRegister(!register);
-    };
     return (
         <ModalMain>
             <LoginWrap
@@ -143,7 +163,7 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
                         </defs>
                     </svg>
                 </Close>
-                {!register ? (
+                {!loginDistribute ? (
                     <LoginInner>
                         <LoginHead>
                             <Lottie

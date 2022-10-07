@@ -165,12 +165,12 @@ const DeleteLoginModal = styled.div`
         > p {
             font-family: 'Spoqa Han Sans Neo';
             font-style: normal;
-            font-weight: 400;
+            font-weight: 200;
             font-size: 15px;
             line-height: 19px;
             color: #ececec;
         }
-        margin-bottom: 34px;
+        margin-bottom: 21px;
     }
     > div:nth-of-type(2) {
         display: flex;

@@ -50,7 +50,6 @@ type cardTextType = {
 const CorpInfo = styled(Link)<cardTextType>`
     text-decoration: none;
     margin-bottom: 37px;
-    margin-top: 18px;
     font-weight: 700;
     font-size: 20px;
     width: 279px;

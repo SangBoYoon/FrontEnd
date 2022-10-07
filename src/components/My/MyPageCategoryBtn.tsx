@@ -35,6 +35,7 @@ type CustomListType = {
 };
 
 const CustomListElement = styled.li<CustomListType>`
+    margin-bottom: 15px;
     cursor: pointer;
 
     width: 278px;
@@ -44,7 +45,10 @@ const CustomListElement = styled.li<CustomListType>`
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 15px;
+    &:hover {
+        background: #323338;
+    }
 
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;

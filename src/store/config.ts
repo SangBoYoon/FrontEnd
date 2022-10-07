@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import corpsLoadSlice from './slices/corpsLoadSlice';
 import handleLoginModalSlice from './slices/handleLoginModalSlice';
 import listCategorySlice from './slices/listCategorySlice';
+import loginDistributeSlice from './slices/loginDistributeSlice';
 import myPageCategorySlice from './slices/myPageCategorySlice';
 import userBookmarkListSlice from './slices/userBookmarkListSlice';
 import userLikeListSlice from './slices/userLikeListSlice';
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     corpsLoad: corpsLoadSlice,
     myPageCategory: myPageCategorySlice,
     userLike: userLikeListSlice,
+    loginDistribute: loginDistributeSlice,
 });
 
 export const store = configureStore({

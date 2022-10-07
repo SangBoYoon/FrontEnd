@@ -174,28 +174,34 @@ const Inner = styled.div`
     box-sizing: border-box;
     background-color: #1a1b1e;
     padding-bottom: 300px;
+    padding-top: 60px;
 `;
 const ServiceIntroImg = styled.img`
-    margin-top: 95px;
+    margin-top: 35px;
+    position: absolute;
 `;
 
 const Top = styled.section`
+    width: 100%;
+    height: 648px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
+    background: #ededed;
+    margin-bottom: 188px;
 `;
 
 const TopTextBox = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-    top: -380px;
+    position: absolute;
+    bottom: 125px;
 `;
 
 const TopTextBoxSmallHeading = styled.h1`
-    color: #bbbbbb;
+    color: #9f9f9f;
     font-size: 42px;
     font-weight: 700;
 `;
@@ -203,7 +209,7 @@ const TopTextBoxSmallHeading = styled.h1`
 const TopTextBoxBigHeading = styled.p`
     font-size: 66px;
     font-weight: 700;
-    color: #ececec;
+    color: #282828;
     strong {
         color: #0064ff;
     }
@@ -213,7 +219,7 @@ const TopTextBoxParagraph = styled.div`
     text-align: center;
     margin-top: 50px;
     font-size: 20px;
-    color: #ececec;
+    color: #282828;
 `;
 
 const Reason = styled.section``;
@@ -227,7 +233,8 @@ const ReasonHeaderBigHeading = styled.h2`
     text-align: center;
     font-size: 50px;
     font-weight: 700;
-    color: #ececec;
+    color: #fff;
+    margin-bottom: 14px;
 `;
 const ReasonHeaderSmallHeading = styled.p`
     font-size: 20px;
@@ -238,7 +245,7 @@ const ReasonIllustrationCardContainer = styled.div`
     display: flex;
     justify-content: space-between;
     width: 888px;
-    margin-top: 49px;
+    margin-top: 99px;
 `;
 
 const ReasonIllustrationCard = styled.div<{ marginValue: number }>`
@@ -253,7 +260,7 @@ const ReasonIllustrationBox = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    background: linear-gradient(180deg, #3c3d44 0%, rgba(60, 61, 68, 0) 100%);
+    background: #3c3d44;
     border-radius: 28px;
     width: 429px;
     height: 423px;
@@ -288,7 +295,7 @@ const ToolsHeader = styled.div`
     flex-direction: column;
     align-items: center;
     height: 731px;
-    background: linear-gradient(180deg, #3c3d44 0%, rgba(60, 61, 68, 0) 100%);
+    background: #393a41;
 `;
 
 const ToolsHeaderHeading = styled.h2`
@@ -319,6 +326,7 @@ const ToolsBody = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 258px;
 `;
 
 const ToolsFooter = styled.div`

@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { setLoginDistribute } from '../../store/slices/loginDistributeSlice';
 import { RootState } from '../../store/config';
 import { setLoginModal } from '../../store/slices/handleLoginModalSlice';
 import { logOut } from '../../store/slices/userSlice';
@@ -12,7 +13,11 @@ const Header: React.FC = () => {
     const isModal = useSelector((state: RootState) => {
         return state.handleLoginModal.isModal;
     });
-    const handleModal = () => {
+    const loginDistribute = useSelector((state: RootState) => {
+        return state.loginDistribute.register;
+    });
+    const handleModal = (bool: boolean) => {
+        dispatch(setLoginDistribute(bool));
         dispatch(setLoginModal(!isModal));
     };
 
@@ -117,10 +122,22 @@ const Header: React.FC = () => {
             <UserWrap>
                 {!user ? (
                     <ul>
-                        <li onClick={handleModal} onKeyDown={handleModal}>
+                        <li
+                            aria-hidden
+                            onClick={() => {
+                                handleModal(false);
+                            }}
+                        >
                             로그인
                         </li>
-                        <li>회원가입</li>
+                        <li
+                            aria-hidden
+                            onClick={() => {
+                                handleModal(true);
+                            }}
+                        >
+                            회원가입
+                        </li>
                     </ul>
                 ) : (
                     <ul>
@@ -133,7 +150,9 @@ const Header: React.FC = () => {
                     </ul>
                 )}
             </UserWrap>
-            {isModal && <LoginModal modal={handleModal} />}
+            {isModal && (
+                <LoginModal modal={() => handleModal(loginDistribute)} />
+            )}
         </HeaderWrapper>
     );
 };

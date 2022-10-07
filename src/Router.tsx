@@ -15,8 +15,8 @@ import RecommendCorp from './components/RecommendCorp/RecommendCorp';
 const Router = () => {
     return (
         <BrowserRouter>
-            <Header />
             <ScrollToTop />
+            <Header />
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/service" element={<ServiceIntro />} />
