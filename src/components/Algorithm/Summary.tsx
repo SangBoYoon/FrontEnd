@@ -335,21 +335,29 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                     financialStatements2021.filter(
                         (man: currentRatioType) =>
                             man.account_nm === '수익(매출액)' ||
-                            man.account_nm === '매출액',
+                            man.account_nm === '매출액' ||
+                            man.account_nm === 'I. 매출액' ||
+                            man.account_nm === '매출',
                     );
 
                 const currentAssetsArray2020: any =
                     financialStatements2020.filter(
                         (man: currentRatioType) =>
                             man.account_nm === '수익(매출액)' ||
-                            man.account_nm === '매출액',
+                            man.account_nm === '매출액' ||
+                            man.account_nm === 'I. 매출액' ||
+                            man.account_nm === '매출',
                     );
 
                 const CapitalArray2021: any = financialStatements2021.filter(
-                    (man: currentRatioType) => man.account_nm === '자본금',
+                    (man: currentRatioType) =>
+                        man.account_nm === '자본금' ||
+                        man.account_nm === 'I. 자본금',
                 );
                 const totalequity2021: any = financialStatements2021.filter(
-                    (man: currentRatioType) => man.account_nm === '자본총계',
+                    (man: currentRatioType) =>
+                        man.account_nm === '자본총계' ||
+                        man.account_nm === '자본과부채총계',
                 );
 
                 if (
