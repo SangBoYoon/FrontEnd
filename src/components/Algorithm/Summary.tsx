@@ -2,6 +2,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import jStat from 'jstat';
+import styled from 'styled-components';
 import AccountingFraud from './AccountingFraud';
 import Currentratio from './Currentratio';
 import DelistReason from './DelistReason';
@@ -442,7 +443,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
             },
         })
             .then((res) => {
-                setName3(res.data.corp_name3);
+                setName3(res.data.corp_name);
             })
             .catch((err) => {
                 console.error(err);
@@ -803,6 +804,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     const [summaryScore, setSummaryScore] = useState(0);
     const [sliceLoading, setSliceLoading] = useState(false);
     const [calLoading, setCalLoading] = useState(false);
+    const [exact, setExact] = useState(0);
 
     useEffect(() => {
         const totalScore = [
@@ -851,6 +853,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                             currentratioPoint * 0.25 +
                             accountingFraudPoint * 0.25,
                     );
+                    setExact(4);
                     setSummaryScore(v);
                     setCalLoading(true);
                 } else if (dataExValue.length === 3) {
@@ -859,17 +862,19 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                             totalScore[1] * 0.33 +
                             totalScore[2] * 0.33,
                     );
-
+                    setExact(3);
                     setSummaryScore(v);
                     setCalLoading(true);
                 } else if (dataExValue.length === 2) {
                     const v = Math.round(
                         totalScore[0] * 0.5 + totalScore[1] * 0.5,
                     );
+                    setExact(2);
                     setSummaryScore(v);
                     setCalLoading(true);
                 } else {
                     const v = Math.round(totalScore[0]);
+                    setExact(1);
                     setSummaryScore(v);
                     setCalLoading(true);
                 }
@@ -878,10 +883,23 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
 
         console.log(calLoading);
         summaryCal();
+        exactCal();
         if (calLoading) {
             console.log(summaryScore);
         }
     }, [score, delistReason, currentratioPoint, accountingFraudPoint]);
+    const [exactVal, setExactVal] = useState('');
+    const exactCal = () => {
+        if (exact === 4) {
+            setExactVal('상');
+        } else if (exact === 3) {
+            setExactVal('중상');
+        } else if (exact === 2) {
+            setExactVal('중');
+        } else {
+            setExactVal('하');
+        }
+    };
 
     // 1번 결과 값 score
     // 2번 결과 값 delistReason
@@ -893,24 +911,185 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                 {noSummary ? (
                     '와우~ 이 회사는 아~~무 정보가 없네용 퉤퉤'
                 ) : calLoading ? (
-                    <div>
-                        <h1>1번 결과 : {score}</h1>
-                        <h1>2번 결과 : {delistReason}</h1>
-                        <h1>3번 결과 : {currentratioPoint}</h1>
-                        <h1>4번 결과 : {accountingFraudPoint}</h1>
-                        <h1>총점 {summaryScore}</h1>
-                    </div>
+                    <Inner>
+                        <div>
+                            <Box1>
+                                <h1>분석 결과</h1>
+                                <div />
+                                <span>
+                                    <h2>수익안전성</h2>
+                                    <h3>{score}점</h3>
+                                </span>
+                                <span>
+                                    <h2>관리종목/상장폐지</h2>
+                                    <h3>{delistReason}점</h3>
+                                </span>
+                                <span>
+                                    <h2>유동비율</h2>
+                                    <h3>{currentratioPoint}점</h3>
+                                </span>
+                                <span>
+                                    <h2>분식가능성</h2>
+                                    <h3>{accountingFraudPoint}점</h3>
+                                </span>
+                            </Box1>
+                            <Box2>
+                                <h2>종합 진단</h2>
+                                <div>
+                                    {score <= 100 && score < 75 ? (
+                                        <h1>
+                                            {name3}은 재무건전성이 훌륭해요.
+                                        </h1>
+                                    ) : score <= 75 && score > 50 ? (
+                                        <h1>
+                                            {name3}은 재무건정성이 아쉬워요.
+                                            재무 외에 다른 요소도 확인할 필요가
+                                            있어요.
+                                        </h1>
+                                    ) : score <= 50 && score > 25 ? (
+                                        <h1>
+                                            {name3}은 재무건정성에 유의할 필요가
+                                            있어요. 투자에 주의하세요.
+                                        </h1>
+                                    ) : (
+                                        <h1>
+                                            {name3}은 재무건전성이 불안해요.
+                                            투자에 매우 유의하세요.
+                                        </h1>
+                                    )}
+
+                                    <h3>{summaryScore}점</h3>
+                                </div>
+
+                                <h4>*정확도 : 매우좋음 </h4>
+                            </Box2>
+                        </div>
+
+                        <Info>
+                            Accouter가 제공하는 금융 정보는 각 콘텐츠
+                            제공업체로부터 받는 정보로 투자 참고사항이며, 오류가
+                            발생하거나 지연될 수 있습니다. Accouter는 제공된
+                            정보에 의한 투자결과에 법적책임을 지지 않습니다.
+                            게시된 정보는 무단으로 배포할 수 없습니다.
+                        </Info>
+                    </Inner>
                 ) : (
+                    // <div>
+                    //     <h1>1번 결과 : {score}</h1>
+                    //     <h1>2번 결과 : {delistReason}</h1>
+                    //     <h1>3번 결과 : {currentratioPoint}</h1>
+                    //     <h1>4번 결과 : {accountingFraudPoint}</h1>
+                    //     <h1>총점 {summaryScore}</h1>
+                    //     <h1>정확도 : {exact}</h1>
+                    // </div>
                     '로딩중'
                 )}
-
-                {/* <RevenueStability corpCode={corpCode} />
-                <DelistReason corpCode={corpCode} />
-                <Currentratio corpCode={corpCode} />
-                <AccountingFraud corpCode={corpCode} /> */}
             </div>
         </div>
     );
 };
 
 export default Summary;
+const Info = styled.div`
+    width: 913px;
+    height: 265px;
+`;
+const Inner = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    div {
+        display: flex;
+    }
+`;
+
+const Box1 = styled.div`
+    padding: 20px;
+    box-sizing: border-box;
+    width: 292px;
+    height: 265px;
+    background: #ffffff;
+    border-radius: 15px;
+    margin-right: 9.5px;
+
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+        width: 60px;
+        height: 16px;
+        font-size: 13px;
+        color: #4f4f4f;
+        margin-bottom: 17.5px;
+    }
+
+    div {
+        width: 252px;
+        height: 0px;
+
+        border-top: 1px solid #d2d2d2;
+    }
+
+    span {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    h2 {
+        margin-top: 18px;
+        font-size: 12px;
+        color: #4f4f4f;
+    }
+    h3 {
+        font-size: 12px;
+        color: #bebfc5;
+        margin-top: 18px;
+    }
+`;
+
+const Box2 = styled.div`
+    width: 602px;
+    height: 265px;
+    background: #ffffff;
+    border-radius: 15px;
+    margin-left: 9.5px;
+    margin-bottom: 60px;
+    box-sizing: border-box;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+        font-weight: 400;
+        font-size: 13px;
+        color: #4f4f4f;
+    }
+
+    h1 {
+        font-weight: 700;
+        font-size: 26px;
+        line-height: 40px;
+        /* identical to box height */
+        color: #4f4f4f;
+        margin: auto;
+    }
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+    }
+
+    h3 {
+        font-size: 20px;
+        line-height: 25px;
+        color: #4f4f4f;
+    }
+
+    h4 {
+        font-size: 13px;
+
+        color: #bebfc5;
+    }
+`;

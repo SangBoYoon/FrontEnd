@@ -14,7 +14,7 @@ const Router = () => {
     return (
         <BrowserRouter>
             <Header />
-            <ScrollToTop />
+            {/* <ScrollToTop /> */}
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/service" element={<ServiceIntro />} />
