@@ -31,7 +31,6 @@ type corpCodeType = {
     corpCode: string;
 };
 const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
-    const [name, setName] = useState<string>('');
     const [totalComprehensiveIncome2021, settotalComprehensiveIncome2021] =
         useState<number>(0);
     const [totalComprehensiveIncome2020, settotalComprehensiveIncome2020] =
@@ -54,26 +53,16 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
     const [fatherArray2018, setFatherArray2018] = useState<currentRatioType[]>(
         [],
     );
+
+    const [result2021, setResult2021] = useState('');
+    const [result2020, setResult2020] = useState('');
+    const [result2019, setResult2019] = useState('');
+    const [result2018, setResult2018] = useState('');
+
+    const [accountingFraudMent, setAccountingFraudMent] = useState('');
+
     const [dataEx, setDataEx] = useState(true);
     const [noDataPrint, setNoDataPrint] = useState(false); // 4개년 데이터 없을 시
-
-    useEffect(() => {
-        axios({
-            url: '/api/company.json',
-            method: 'get',
-            params: {
-                crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
-                corp_code: `${corpCode}`,
-            },
-        })
-            .then((res) => {
-                setName(res.data.corp_name);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-        // open dart api를 통해 주식 종목명을 가져옴
-    }, []);
 
     useEffect(() => {
         axios({
@@ -239,28 +228,36 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
                 if (totalComprehensiveIncome2020 === +1) {
                     if (totalComprehensiveIncome2021 === +1) {
                         setaccountingFraudPoint('100점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     } else if (totalComprehensiveIncome2021 === -1) {
                         setaccountingFraudPoint('90점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     }
                 } else if (totalComprehensiveIncome2020 === -1) {
                     if (totalComprehensiveIncome2021 === +1) {
                         setaccountingFraudPoint('90점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     } else if (totalComprehensiveIncome2021 === -1) {
                         setaccountingFraudPoint('60점');
+                        setAccountingFraudMent('분식 가능성이 다소 존재해요');
                     }
                 }
             } else if (totalComprehensiveIncome2019 === -1) {
                 if (totalComprehensiveIncome2020 === +1) {
                     if (totalComprehensiveIncome2021 === +1) {
                         setaccountingFraudPoint('90점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     } else if (totalComprehensiveIncome2021 === -1) {
                         setaccountingFraudPoint('80점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     }
                 } else if (totalComprehensiveIncome2020 === -1) {
                     if (totalComprehensiveIncome2021 === +1) {
                         setaccountingFraudPoint('80점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     } else if (totalComprehensiveIncome2021 === -1) {
                         setaccountingFraudPoint('30점');
+                        setAccountingFraudMent('분식 가능성이 매우 커요');
                     }
                 }
             }
@@ -269,58 +266,217 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
                 if (totalComprehensiveIncome2020 === +1) {
                     if (totalComprehensiveIncome2021 === +1) {
                         setaccountingFraudPoint('90점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     } else if (totalComprehensiveIncome2021 === -1) {
                         setaccountingFraudPoint('90점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     }
                 } else if (totalComprehensiveIncome2020 === -1) {
                     if (totalComprehensiveIncome2021 === +1) {
                         setaccountingFraudPoint('80점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     } else if (totalComprehensiveIncome2021 === -1) {
                         setaccountingFraudPoint('60점');
+                        setAccountingFraudMent('분식 가능성이 다소 존재해요');
                     }
                 }
             } else if (totalComprehensiveIncome2019 === -1) {
                 if (totalComprehensiveIncome2020 === +1) {
                     if (totalComprehensiveIncome2021 === +1) {
                         setaccountingFraudPoint('80점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     } else if (totalComprehensiveIncome2021 === -1) {
                         setaccountingFraudPoint('70점');
+                        setAccountingFraudMent('분식 가능성이 다소 존재해요');
                     }
                 } else if (totalComprehensiveIncome2020 === -1) {
                     if (totalComprehensiveIncome2021 === +1) {
                         setaccountingFraudPoint('80점');
+                        setAccountingFraudMent('분식 가능성이 낮아요');
                     } else if (totalComprehensiveIncome2021 === -1) {
                         setaccountingFraudPoint('0점');
+                        setAccountingFraudMent('분식 가능성이 매우 높아요');
                     }
                 }
             }
         }
+        if (totalComprehensiveIncome2018 === -1) {
+            setResult2018('적자');
+        } else {
+            setResult2018('흑자');
+        }
+        if (totalComprehensiveIncome2019 === -1) {
+            setResult2019('적자');
+        } else {
+            setResult2019('흑자');
+        }
+        if (totalComprehensiveIncome2020 === -1) {
+            setResult2020('적자');
+        } else {
+            setResult2020('흑자');
+        }
+        if (totalComprehensiveIncome2021 === -1) {
+            setResult2021('적자');
+        } else {
+            setResult2021('흑자');
+        }
     }, [totalComprehensiveIncome2018]);
 
     return (
-        <Induty>
+        <div>
             {noDataPrint ? (
                 '데이터 없슬 때 띄울 화면'
             ) : (
-                <div>
-                    <br />
-                    <br />
-                    종목명 : {name} <br />
-                    1이면 양수(흑자)라는 뜻이고 -1이면 음수(적자)라는 뜻임{' '}
-                    <br />
-                    2021 :{totalComprehensiveIncome2021} <br />
-                    2020 : {totalComprehensiveIncome2020} <br />
-                    2019 : {totalComprehensiveIncome2019} <br />
-                    2018 : {totalComprehensiveIncome2018} <br />
-                    분식가능성점수 : {accountingFraudPoint} <br />
-                </div>
+                <Inner>
+                    <AccountingFraudContainer>
+                        <LeftBox>
+                            <LeftBoxHeader>
+                                <WhiteBoxName>
+                                    영업수익의 적자/흑자
+                                </WhiteBoxName>
+                            </LeftBoxHeader>
+                            <LeftBoxLine />
+                            <LeftBoxTupel
+                                textShow={totalComprehensiveIncome2021}
+                            >
+                                <h1>2021</h1>
+                                <p>{result2021}</p>
+                            </LeftBoxTupel>
+                            <LeftBoxTupel
+                                textShow={totalComprehensiveIncome2020}
+                            >
+                                <h1>2020</h1>
+                                <p>{result2020}</p>
+                            </LeftBoxTupel>
+                            <LeftBoxTupel
+                                textShow={totalComprehensiveIncome2019}
+                            >
+                                <h1>2019</h1>
+                                <p>{result2019}</p>
+                            </LeftBoxTupel>
+                            <LeftBoxTupel
+                                textShow={totalComprehensiveIncome2018}
+                            >
+                                <h1>2018</h1>
+                                <p>{result2018}</p>
+                            </LeftBoxTupel>
+                        </LeftBox>
+                        <RightBox>
+                            <WhiteBoxName>분식가능성 진단</WhiteBoxName>
+                            <h2>
+                                기업의 2개년 매출액과 30억을 비교하여 산출한
+                                매출액 점수와 기업의 작년 자본금과 자본총계를
+                                통해 계산한 자본 잠식률 점수를 합산해 기업의
+                                관리 종목 지정/상장 폐지 가능성을 살핍니다
+                            </h2>
+                            <DownTupleContentContainer>
+                                <p>{accountingFraudMent}</p>
+                                <h2>{accountingFraudPoint}</h2>
+                            </DownTupleContentContainer>
+                        </RightBox>
+                    </AccountingFraudContainer>
+                    <div className="alert">
+                        Accouter가 제공하는 금융 정보는 각 콘텐츠 제공업체로부터
+                        받는 정보로 투자 참고사항이며, 오류가 발생하거나 지연될
+                        수 있습니다. Accouter는 제공된 정보에 의한 투자결과에
+                        법적책임을 지지 않습니다. 게시된 정보는 무단으로 배포할
+                        수 없습니다.
+                    </div>
+                </Inner>
             )}
-        </Induty>
+        </div>
     );
 };
 
-const Induty = styled.h1`
-    font-size: 50px;
+const Inner = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .alert {
+        width: 913px;
+        margin-top: 65px;
+        font-size: 13px;
+    }
 `;
 
+const AccountingFraudContainer = styled.div`
+    margin-top: 24px;
+    width: 912px;
+    margin-right: 19px;
+    display: flex;
+    justify-content: space-between;
+`;
+
+const LeftBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 292px;
+    height: 265px;
+    background-color: white;
+    border-radius: 15px;
+`;
+
+const LeftBoxHeader = styled.div`
+    width: 100%;
+`;
+
+const RightBox = styled.div`
+    width: 602px;
+    height: 265px;
+    background-color: white;
+    border-radius: 15px;
+    h1 {
+        font-size: 13px;
+        color: #4f4f4f;
+        margin-left: 20px;
+        padding-top: 20px;
+    }
+    h2 {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 5px;
+        font-size: 13px;
+    }
+`;
+
+const WhiteBoxName = styled.h1`
+    font-size: 13px;
+    color: #4f4f4f;
+    margin-left: 20px;
+    margin-top: 20px;
+`;
+
+const LeftBoxLine = styled.div`
+    width: 252px;
+    border: 1px solid #d2d2d2;
+    height: 0px;
+    margin-top: 10px;
+`;
+const DownTupleContentContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+    p {
+        color: #4f4f4f;
+        font-size: 32px;
+        font-weight: 700;
+    }
+    h2 {
+        font-size: 20px;
+    }
+`;
+
+const LeftBoxTupel = styled.div<{ textShow: number }>`
+    display: flex;
+    justify-content: space-between;
+    width: 87%;
+    display: flex;
+    margin-top: 20px;
+    p {
+        color: ${(props) => (props.textShow === 1 ? '#0064FF' : '#BEBFC5')};
+    }
+`;
 export default AccountingFraud;
