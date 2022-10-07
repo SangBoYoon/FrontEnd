@@ -3,38 +3,61 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../../store/config';
-import { setUserBookmarkList } from '../../store/slices/userBookmarkListSlice';
 import BlockWrap from '../Common/BlockWrap';
 import CategoryBlocks from './CategoryBlocks';
 import { CategoryData } from './CategoryData';
 import IntroduceBlock from './IntroduceBlock';
-import RecommendBlocks, { corpDataTypeBookmark } from './RecommendBlocks';
+import RecommendBlocks from './RecommendBlocks';
 import SearchInput from './SearchInput';
+import { bookmarkLoad } from '../../features/bookmark';
+import { corpType, setCorps } from '../../store/slices/corpsLoadSlice';
+import {
+    deleteAccessToken,
+    deleteRefreshToken,
+} from '../../services/tokenControl';
 
 const Main: React.FC = () => {
     const [newArr, setNewArr] = useState<Array<string>>([]);
+    const [newCorps, setNewCorps] = useState<corpType[]>([]);
     const dispatch = useDispatch();
     const { user } = useSelector((state: RootState) => ({
         user: state.user.email,
     }));
 
+    const BookmarkData = useSelector((state: RootState) => {
+        return state.userBookmarkList.array;
+    });
+
+    const CorpsData = useSelector((state: RootState) => {
+        return state.corpsLoad.array;
+    });
+
+    useEffect(() => {
+        if (CorpsData.length > 1) {
+            setNewCorps(
+                CorpsData.map((item) => item)
+                    .sort((a, b) => b.likeCount - a.likeCount)
+                    .slice(0, 8),
+            );
+        }
+    }, [CorpsData]);
+
     useEffect(() => {
         if (user) {
-            const accessToken = localStorage.getItem('accessToken') || '';
-            let bookmark: corpDataTypeBookmark[];
-            axios
-                .create({
-                    headers: { Authorization: `Bearer ${accessToken}` },
-                })
-                .get('/accounter/bookmark')
-                .then((res) => {
-                    bookmark = res.data.data;
-                    dispatch(setUserBookmarkList(bookmark));
-                })
-                .catch(() => {
-                    console.log('bookmark load fail');
-                });
+            bookmarkLoad(dispatch);
+        } else {
+            deleteAccessToken();
+            deleteRefreshToken();
         }
+
+        axios
+            .get('/accounter/corps')
+            .then((res) => {
+                dispatch(setCorps(res.data.data));
+            })
+            .catch(() => {
+                console.log('corporations load err');
+            });
 
         const categoryTempData = CategoryData;
         const newTempArr = [];
@@ -65,10 +88,13 @@ const Main: React.FC = () => {
                     <CategoryBlocks arr={newArr} />
                 </BlockWrap>
                 <BlockWrap title="추천 품목">
-                    <RecommendBlocks type="recommend" />
+                    <RecommendBlocks type="recommend" data={newCorps} />
                 </BlockWrap>
                 <BlockWrap title="북마크">
-                    <RecommendBlocks type="bookmark" />
+                    <RecommendBlocks
+                        type="bookmark"
+                        bookmarkData={BookmarkData}
+                    />
                 </BlockWrap>
                 <BlockWrap title="서비스 소개">
                     <IntroduceBlock />

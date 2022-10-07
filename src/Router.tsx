@@ -9,6 +9,8 @@ import ServiceIntro from './components/ServiceIntro';
 import StockFinder from './components/StockFinder/StockFinder';
 import CorpAnalysis from './components/Algorithm/CorpAnalysis';
 import ScrollToTop from './components/Common/ScrollToTop';
+import Mypage from './components/My/Mypage';
+import RecommendCorp from './components/RecommendCorp/RecommendCorp';
 
 const Router = () => {
     return (
@@ -25,6 +27,8 @@ const Router = () => {
                 />
                 <Route path="/login/token" element={<LoginSuccess />} />
                 <Route path="/CorporationInfo" element={<CorporationInfo />} />
+                <Route path="/my" element={<Mypage />} />
+                <Route path="/recommend" element={<RecommendCorp />} />
             </Routes>
             <Footer />
         </BrowserRouter>

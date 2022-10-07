@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react/require-default-props */
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../../store/config';
@@ -55,15 +55,7 @@ const BookmarkNotLoginComp: React.FC = () => {
         return state.handleLoginModal.isModal;
     });
     const handleModal = () => {
-        const main = document.getElementsByClassName('main')[0];
         dispatch(setLoginModal(!isModal));
-        if (isModal) {
-            if (main) {
-                main.className = 'main';
-            }
-        } else if (main) {
-            main.className = 'main is-blurred';
-        }
     };
     return (
         <BookmarkNullStyle>
@@ -98,8 +90,8 @@ const BookmarkNullStyle = styled.div`
     width: 100%;
     height: 287px;
 
-    background: rgba(236, 236, 236, 0.21);
-    border: 1.5px solid rgba(236, 236, 236, 0.66);
+    background: rgba(50, 51, 56, 0.2);
+    border: 1.5px solid #38383d;
     border-radius: 15px;
     > div {
         width: 100%;
@@ -136,37 +128,12 @@ const BookmarkNullStyle = styled.div`
     }
 `;
 
-const RecommendBlocks: React.FC<{ type: string }> = ({ type }) => {
-    const [data, setData] = useState<corpDataType[]>([]);
-    const [bookmark, setBookmark] = useState<corpDataTypeBookmark[]>([]);
-
-    const BookmarkData = useSelector(
-        (state: RootState): corpDataTypeBookmark[] => {
-            return state.userBookmarkList.array;
-        },
-    );
-
-    useEffect(() => {
-        if (type === 'recommend') {
-            axios.get('/accounter/corps').then((res) => {
-                setData(
-                    res.data.data
-                        .sort(
-                            (b: corpDataType, a: corpDataType) =>
-                                a.likeCount - b.likeCount,
-                        )
-                        .splice(0, 8),
-                );
-            });
-        } else if (type === 'bookmark') {
-            setBookmark(BookmarkData);
-        }
-    }, []);
-
-    useEffect(() => {
-        setBookmark(BookmarkData);
-    }, [BookmarkData]);
-
+// eslint-disable-next-line react/require-default-props
+const RecommendBlocks: React.FC<{
+    type: string;
+    data?: corpDataType[];
+    bookmarkData?: corpDataTypeBookmark[];
+}> = ({ type, data, bookmarkData }) => {
     const { user } = useSelector((state: RootState) => ({
         user: state.user.email,
     }));
@@ -174,6 +141,7 @@ const RecommendBlocks: React.FC<{ type: string }> = ({ type }) => {
     return (
         <RecommendBlocksStyle>
             {type === 'recommend' &&
+                data &&
                 data.map((item, index) => {
                     return (
                         <RecommendBlock
@@ -182,15 +150,16 @@ const RecommendBlocks: React.FC<{ type: string }> = ({ type }) => {
                             corpCode={item.corpCode}
                             likeCount={item.likeCount}
                             corpName={item.corpName}
+                            mypage={false}
                         />
                     );
                 })}
             {type === 'bookmark' &&
-                bookmark.length > 0 &&
+                bookmarkData &&
+                bookmarkData.length > 0 &&
                 user &&
-                bookmark
+                bookmarkData
                     .map((item) => item)
-                    .sort((b, a) => a.corpCode.corpLike - b.corpCode.corpLike)
                     .splice(0, 8)
                     .map((item, index) => {
                         return (
@@ -200,12 +169,14 @@ const RecommendBlocks: React.FC<{ type: string }> = ({ type }) => {
                                 corpCode={item.corpCode.corpCode}
                                 likeCount={item.corpCode.corpLike}
                                 corpName={item.corpCode.corpName}
+                                mypage={false}
                             />
                         );
                     })}
-            {type === 'bookmark' && bookmark.length === 0 && user && (
-                <BookmarkNullComp />
-            )}
+            {type === 'bookmark' &&
+                bookmarkData &&
+                bookmarkData.length === 0 &&
+                user && <BookmarkNullComp />}
             {type === 'bookmark' && !user && <BookmarkNotLoginComp />}
         </RecommendBlocksStyle>
     );

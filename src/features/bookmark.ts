@@ -1,21 +1,29 @@
 import axios from 'axios';
+import { Dispatch } from 'react';
+import { setUserLikeList } from '../store/slices/userLikeListSlice';
+import { setUserBookmarkList } from '../store/slices/userBookmarkListSlice';
 
-import { corpType } from '../store/slices/userBookmarkListSlice';
-
-export function bookmarkLoad(): corpType[] {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const bookmarkLoad = (dispatch: Dispatch<any>) => {
     const accessToken = localStorage.getItem('accessToken') || '';
-
-    let result: corpType[] = [];
 
     axios
         .create({ headers: { Authorization: `Bearer ${accessToken}` } })
         .get('/accounter/bookmark')
         .then((res) => {
-            result = res.data.data;
-            return result;
+            dispatch(setUserBookmarkList(res.data.data));
         })
         .catch(() => {
             console.log('bookmark load fail');
         });
-    return result;
-}
+
+    axios
+        .create({ headers: { Authorization: `Bearer ${accessToken}` } })
+        .get('/accounter/corp/like')
+        .then((res) => {
+            dispatch(setUserLikeList(res.data.data));
+        })
+        .catch(() => {
+            console.log('bookmark load fail');
+        });
+};

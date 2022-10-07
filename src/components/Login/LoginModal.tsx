@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import Lottie from 'lottie-react';
 import styled from 'styled-components';
+import { onSilentRefresh } from '../../services/reissueToken';
 import LoginLottie from './loginlottie.json';
 import { setAccessToken, setRefreshToken } from '../../services/tokenControl';
 import { userAPI } from '../../features/userAPI';
@@ -59,7 +60,9 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
                 })
                 .then(() => {
                     setInputEmail(inputRegisterEmail);
+                    console.log(inputRegisterEmail);
                     setInputPassword(inputRegisterPassword);
+                    console.log(inputRegisterPassword);
                     // eslint-disable-next-line no-alert
                     alert('회원가입이 완료되었습니다.');
                     onClickLogin();
@@ -84,8 +87,9 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
                     setAccessToken(accessToken);
                     setRefreshToken(refreshToken);
                     userAPI(dispatch);
+                    setInterval(onSilentRefresh, 1200000);
 
-                    window.location.reload();
+                    window.location.replace('/');
                 } catch {
                     console.log('login err');
                 }
@@ -343,6 +347,7 @@ const ModalMain = styled.div`
     bottom: 0;
     background: rgba(0, 0, 0, 0.3);
     z-index: 1000;
+    backdrop-filter: blur(5px);
 `;
 
 const LoginWrap = styled.div<ModalWrap>`

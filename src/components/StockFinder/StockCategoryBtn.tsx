@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../../store/config';
-
 import { setCategory } from '../../store/slices/listCategorySlice';
 
 type DrinkCategoryBtnType = {
@@ -35,11 +34,17 @@ type BtnType = {
 };
 
 const BtnWrap = styled.div<BtnType>`
+    &:hover {
+        background: #26272b;
+        font-weight: 700;
+        border-radius: 10px;
+    }
     width: 198px;
     height: 52px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+
     cursor: pointer;
     margin-bottom: 15px;
 
@@ -53,5 +58,6 @@ const BtnWrap = styled.div<BtnType>`
         line-height: 23px;
         letter-spacing: -0.01em;
         margin: 2 12px;
+        margin-left: 24px;
     }
 `;

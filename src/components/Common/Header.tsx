@@ -13,15 +13,7 @@ const Header: React.FC = () => {
         return state.handleLoginModal.isModal;
     });
     const handleModal = () => {
-        const main = document.getElementsByClassName('main')[0];
         dispatch(setLoginModal(!isModal));
-        if (isModal) {
-            if (main) {
-                main.className = 'main';
-            }
-        } else if (main) {
-            main.className = 'main is-blurred';
-        }
     };
 
     const { user } = useSelector((state: RootState) => ({
@@ -117,7 +109,9 @@ const Header: React.FC = () => {
                     <li>
                         <Link to="/corporations">주식찾기</Link>
                     </li>
-                    <li>주요종목</li>
+                    <li>
+                        <Link to="/recommend">주요종목</Link>
+                    </li>
                 </ul>
             </MenuWrap>
             <UserWrap>
@@ -133,7 +127,9 @@ const Header: React.FC = () => {
                         <li onClick={logout} onKeyDown={logout}>
                             로그아웃
                         </li>
-                        <li>마이페이지</li>
+                        <li>
+                            <Link to="/my">마이페이지</Link>
+                        </li>
                     </ul>
                 )}
             </UserWrap>
@@ -166,6 +162,10 @@ const HeaderWrapper = styled.div`
             list-style: none;
             > li {
                 cursor: pointer;
+                > a {
+                    text-decoration: none;
+                    color: #ececec;
+                }
             }
         }
     }

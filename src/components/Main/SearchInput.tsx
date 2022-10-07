@@ -1,32 +1,23 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { RootState } from '../../store/config';
 
 export type corpType = {
     corpCode: string;
     corpName: string;
     corpCategory: string;
-    corpLike: number;
+    likeCount: number;
 };
 
 const SearchInput: React.FC = () => {
     const [corps, setCorps] = useState<corpType[]>([]);
     const [value, setValue] = useState('');
 
-    const datasetting = () => {
-        axios
-            .get('/accounter/corps')
-            .then((res) => {
-                setCorps(res.data.data);
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-    };
-
-    useEffect(() => {
-        datasetting();
-    }, []);
+    const CorporationsData = useSelector((state: RootState): corpType[] => {
+        return state.corpsLoad.array;
+    });
 
     return (
         <SearchWrap>
@@ -34,6 +25,7 @@ const SearchInput: React.FC = () => {
                 <input
                     type="text"
                     placeholder="종목명 검색"
+                    onClick={() => setCorps(CorporationsData)}
                     onChange={(e) => {
                         setValue(e.target.value);
                     }}
@@ -82,10 +74,13 @@ const SearchInput: React.FC = () => {
                         })
                         .splice(0, 5)
                         .map((item, index) => (
-                            // eslint-disable-next-line react/no-array-index-key
-                            <div key={index}>
+                            <Link
+                                to={`/corporations/${item.corpCode}`}
+                                // eslint-disable-next-line react/no-array-index-key
+                                key={index}
+                            >
                                 <p>{item.corpName}</p>
-                            </div>
+                            </Link>
                         ))}
             </SearchResult>
         </SearchWrap>
@@ -111,7 +106,9 @@ const SearchResult = styled.div`
     width: 240px;
     box-shadow: 0px 10px 39px 1px rgba(0, 0, 0, 0.48);
 
-    > div {
+    > a {
+        color: #262626;
+        text-decoration: none;
         background-color: #fff;
         width: 100%;
         height: 50px;
