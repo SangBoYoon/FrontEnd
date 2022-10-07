@@ -380,12 +380,15 @@ const StockFinder: React.FC = () => {
             <ContentsWrapper>
                 <Category>
                     <ul>
+                        <li key={0}>
+                            <StockCategoryBtn category="전체" />
+                        </li>
                         {allCategory
                             .filter((a, b) => allCategory.indexOf(a) === b)
                             .map((v, index) => {
                                 return (
                                     // eslint-disable-next-line react/jsx-key, react/no-array-index-key
-                                    <li key={index}>
+                                    <li key={index + 1}>
                                         <StockCategoryBtn category={v} />
                                     </li>
                                 );
@@ -403,7 +406,6 @@ const StockFinder: React.FC = () => {
                                     <StockFinderElement
                                         corpCode={v.corpCode}
                                         corpName={v.corpName}
-                                        corpCategory={v.corpCategory}
                                     />
                                 </li>
                             );
