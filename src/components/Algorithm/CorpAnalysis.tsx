@@ -12,6 +12,7 @@ import AccountingFraud from './AccountingFraud';
 import Currentratio from './Currentratio';
 import DelistReason from './DelistReason';
 import CorpIntroduction from './CorpIntroduction';
+import Summary from './Summary';
 
 const CorpAnalysis: React.FC = () => {
     const { corpCode } = useParams<{ corpCode: string }>();
@@ -824,21 +825,41 @@ const CorpAnalysis: React.FC = () => {
 
             <Inner>
                 <NavWrapper>
-                    <button
-                        onClick={() =>
-                            setViewSelect([
-                                true,
-                                false,
-                                false,
-                                false,
-                                false,
-                                false,
-                            ])
-                        }
-                    >
-                        기업소개
-                    </button>
-                    <button
+                    {viewSelect[0] ? (
+                        <DefaultBtn
+                            onClick={() =>
+                                setViewSelect([
+                                    true,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                ])
+                            }
+                        >
+                            {' '}
+                            기업소개
+                        </DefaultBtn>
+                    ) : (
+                        <NavBtn
+                            onClick={() =>
+                                setViewSelect([
+                                    true,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                ])
+                            }
+                        >
+                            기업소개
+                        </NavBtn>
+                    )}
+
+                    <div />
+                    <NavBtn
                         onClick={() =>
                             setViewSelect([
                                 false,
@@ -851,8 +872,9 @@ const CorpAnalysis: React.FC = () => {
                         }
                     >
                         수익안전성
-                    </button>
-                    <button
+                    </NavBtn>
+                    <div />
+                    <NavBtn
                         onClick={() =>
                             setViewSelect([
                                 false,
@@ -865,8 +887,9 @@ const CorpAnalysis: React.FC = () => {
                         }
                     >
                         관리종목/상장폐지
-                    </button>
-                    <button
+                    </NavBtn>
+                    <div />
+                    <NavBtn
                         onClick={() =>
                             setViewSelect([
                                 false,
@@ -879,8 +902,9 @@ const CorpAnalysis: React.FC = () => {
                         }
                     >
                         유동비율
-                    </button>
-                    <button
+                    </NavBtn>
+                    <div />
+                    <NavBtn
                         onClick={() =>
                             setViewSelect([
                                 false,
@@ -893,8 +917,9 @@ const CorpAnalysis: React.FC = () => {
                         }
                     >
                         분석가능성
-                    </button>
-                    <button
+                    </NavBtn>
+                    <div />
+                    <NavBtn
                         onClick={() =>
                             setViewSelect([
                                 false,
@@ -906,8 +931,8 @@ const CorpAnalysis: React.FC = () => {
                             ])
                         }
                     >
-                        분석가능성
-                    </button>
+                        전체요약
+                    </NavBtn>
                 </NavWrapper>
                 <ModalWrapper>
                     {viewSelect[0] ? (
@@ -922,7 +947,7 @@ const CorpAnalysis: React.FC = () => {
                     ) : viewSelect[4] ? (
                         <AccountingFraud corpCode={corpCode!} />
                     ) : (
-                        '드디어마지막'
+                        <Summary corpCode={corpCode!} />
                     )}
                 </ModalWrapper>
             </Inner>
@@ -930,10 +955,51 @@ const CorpAnalysis: React.FC = () => {
     );
 };
 
+const DefaultBtn = styled.button`
+    background: #ededed;
+    box-shadow: 0px 3px 13px -2px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    width: 155px;
+    height: 43px;
+    font-size: 16px;
+    line-height: 20px;
+    color: #414141;
+    border: none;
+`;
+
+const NavBtn = styled.button`
+    border-radius: 15px;
+    width: 155px;
+    height: 43px;
+    background: none;
+    border: none;
+    color: #7c7c7c;
+    font-size: 16px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    :hover,
+    :focus {
+        cursor: pointer;
+        background: #ededed;
+        box-shadow: 0px 3px 13px -2px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+
+        font-size: 16px;
+        line-height: 20px;
+        color: #414141;
+        transition: all 0.5s ease-in-out;
+    }
+`;
+
 const Inner = styled.div`
-    background-color: purple;
     width: 100%;
     height: 300vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 const Banner = styled.div`
@@ -952,10 +1018,46 @@ const BannerSvg = styled.svg`
 `;
 
 const NavWrapper = styled.div`
-    background-color: red;
-    width: 100%;
+    width: 913px;
+    height: 52px;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+    background: #bebfc5;
+
+    border-radius: 15px;
+    margin-top: 99px;
+    margin-bottom: 34px;
+    padding: 0 5px;
+
+    div {
+        border-top: 0.5px solid #7c7c7c;
+        transform: rotate(90deg);
+        width: 40px;
+    }
+
+    ,
+    button:nth-child(3),
+    button:nth-child(7),
+    button:nth-child(9) {
+        margin-right: -10px;
+        margin-left: -10px;
+    }
+
+    button:first-child {
+        margin-right: -10px;
+    }
+
+    button:nth-child(11) {
+        margin-left: -10px;
+    }
+
+    button:nth-child(5) {
+        width: 170px;
+
+        margin-left: -10px;
+        margin-right: -10px;
+    }
 `;
 
 const ModalWrapper = styled.div`
