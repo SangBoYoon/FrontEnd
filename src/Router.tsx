@@ -8,7 +8,7 @@ import ServiceIntro from './components/ServiceIntro';
 import StockFinder from './components/StockFinder/StockFinder';
 import CorpAnalysis from './components/Algorithm/CorpAnalysis';
 
-import ScrollToTop from './components/Common/ScrollToTop';
+// import ScrollToTop from './components/Common/ScrollToTop';
 
 const Router = () => {
     return (
