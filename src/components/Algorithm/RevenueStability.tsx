@@ -1,9 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import jStat from 'jstat';
-import { useParams } from 'react-router-dom';
-import { kMaxLength } from 'buffer';
-import { ResultType } from '@remix-run/router/dist/utils';
 
 type accountType = {
     account_nm: string; // 당기순이익(손실)
@@ -215,6 +212,7 @@ const RevenueStability: React.FC<RevenueStabilityType> = ({ corpCode }) => {
                 }
             } else {
                 setNoDataPrint(true);
+
                 console.log('데이터없음');
             }
         }

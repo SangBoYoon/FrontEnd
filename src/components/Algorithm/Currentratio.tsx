@@ -425,4 +425,11 @@ const Alert = styled.div`
     font-size: 13px;
 `;
 
+const UpperConatiner = styled.div`
+    display: flex;
+    height: 265px;
+`;
+
+const currentAssets = styled.div``;
+
 export default Currentratio;
