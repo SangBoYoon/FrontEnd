@@ -261,11 +261,11 @@ const RevenueStability = ({ corpCode }) => {
             {
                 type: 'line',
                 data: [
-                    allRevenue[4],
-                    allRevenue[3],
-                    allRevenue[2],
-                    allRevenue[1],
                     allRevenue[0],
+                    allRevenue[1],
+                    allRevenue[2],
+                    allRevenue[3],
+                    allRevenue[4],
                 ],
                 borderColor: '#0064FF',
                 backgroundColor: 'white',
@@ -280,11 +280,11 @@ const RevenueStability = ({ corpCode }) => {
             {
                 type: 'scatter',
                 data: [
-                    allRevenue[4],
-                    allRevenue[3],
-                    allRevenue[2],
-                    allRevenue[1],
                     allRevenue[0],
+                    allRevenue[1],
+                    allRevenue[2],
+                    allRevenue[3],
+                    allRevenue[4],
                 ],
                 borderColor: '#0064FF',
                 backgroundColor: 'white',
@@ -296,7 +296,10 @@ const RevenueStability = ({ corpCode }) => {
         <div>
             <div>
                 {noDataPrint ? (
-                    '데이터 없슬 때 띄울 화면'
+                    <NoData>
+                        <h2>수익안전성</h2>
+                        <div>입력된 데이터가 없어요 😥 </div>
+                    </NoData>
                 ) : (
                     <Inner>
                         <TopBoxWrapper>
@@ -388,15 +391,6 @@ const RevenueStability = ({ corpCode }) => {
                             </div>
                         </BottomBox>
 
-                        {/* <h1>2017년 영업수익 : {allRevenue[0]}</h1>
-                        <h1>2018년 영업수익 : {allRevenue[1]}</h1>
-                        <h1>2019년 영업수익 : {allRevenue[2]}</h1>
-                        <h1>2020년 영업수익 : {allRevenue[3]}</h1>
-                        <h1>2021년 영업수익 : {allRevenue[4]}</h1>
-                        <h1>
-                            상관계수 : {Math.round(calculationResult * 10) / 10}
-                        </h1>
-                        <h1>총 계산 결과 : {score}</h1> */}
                         <Info>
                             Accouter가 제공하는 금융 정보는 각 콘텐츠
                             제공업체로부터 받는 정보로 투자 참고사항이며, 오류가
@@ -410,6 +404,38 @@ const RevenueStability = ({ corpCode }) => {
         </div>
     );
 };
+
+const NoData = styled.div`
+    width: 292px;
+    height: 265px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    h2 {
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 16px;
+
+        color: #4f4f4f;
+    }
+
+    div {
+        font-size: 14px;
+        line-height: 18px;
+        /* identical to box height */
+
+        text-align: center;
+
+        color: #737373;
+        margin: auto;
+    }
+`;
 
 const Info = styled.div`
     width: 913px;
