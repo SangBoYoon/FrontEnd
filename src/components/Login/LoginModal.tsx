@@ -20,7 +20,6 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
     const [inputEmail, setInputEmail] = useState<string>('');
     const [inputPassword, setInputPassword] = useState<string>('');
 
-    const [register, setRegister] = useState<boolean>(false);
     const [modalHeight, setModalHeight] = useState<string>('573');
 
     const [inputRegisterEmail, setInputRegisterEmail] = useState<string>('');
@@ -48,7 +47,7 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
     const onClickRegister = () => {
         try {
             axios
-                .post('/accounter/signup', {
+                .post(`http://54.180.19.84:8080/accounter/signup`, {
                     email: inputRegisterEmail,
                     password: inputRegisterPassword,
                     nickName: inputRegisterNickname,
@@ -78,7 +77,7 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
         inputRegisterPassword?: string,
     ) => {
         axios
-            .post('/accounter/login', {
+            .post(`http://54.180.19.84:8080/accounter/login`, {
                 email: inputRegisterEmail || inputEmail,
                 password: inputRegisterPassword || inputPassword,
             })
@@ -93,7 +92,7 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
                     userAPI(dispatch);
                     setInterval(onSilentRefresh, 1200000);
 
-                    window.location.replace('/');
+                    // window.location.replace('/');
                 } catch {
                     console.log('login err');
                 }
@@ -114,16 +113,6 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
     const changeRegister = () => {
         dispatch(setLoginDistribute(!loginDistribute));
     };
-
-    useEffect(() => {
-        if (!loginDistribute) {
-            setRegister(false);
-        } else {
-            setRegister(true);
-        }
-        return setRegister(false);
-    }, []);
-
     return (
         <ModalMain>
             <LoginWrap

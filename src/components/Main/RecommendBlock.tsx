@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { RootState } from '../../store/config';
+import { corpLikeType } from '../../store/slices/userLikeListSlice';
 import BookmarkBtn from '../Common/BookmarkBtn';
 import Like from '../Common/Like';
 
@@ -17,6 +20,15 @@ const RecommendBlock: React.FC<recommendBlockType> = ({
     likeCount,
     mypage,
 }) => {
+    const [, setData] = useState({});
+    const LikeData = useSelector((state: RootState): corpLikeType[] => {
+        return state.userLike.array;
+    });
+
+    useEffect(() => {
+        setData({});
+        console.log(corpName);
+    }, [LikeData]);
     return (
         <RecommendBlockStyle mypage={mypage}>
             <Link to={`/corporations/${corpCode}`}>

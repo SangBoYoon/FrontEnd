@@ -34,7 +34,7 @@ const BookmarkBtn: React.FC<bookmarkIconType> = ({ corpCode }) => {
                     'Content-type': 'application/json',
                 },
             })
-            .post('/accounter/bookmark', {
+            .post(`http://54.180.19.84:8080/accounter/bookmark`, {
                 corpCode,
             })
             .then(() => {
@@ -44,7 +44,7 @@ const BookmarkBtn: React.FC<bookmarkIconType> = ({ corpCode }) => {
                             Authorization: `Bearer ${getAccessToken()}`,
                         },
                     })
-                    .get('/accounter/bookmark')
+                    .get(`http://54.180.19.84:8080/accounter/bookmark`)
                     .then((res) => {
                         dispatch(setUserBookmarkList(res.data.data));
                     })

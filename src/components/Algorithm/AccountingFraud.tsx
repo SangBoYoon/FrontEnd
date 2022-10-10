@@ -66,7 +66,7 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
 
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -92,7 +92,7 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
     }, []);
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -118,7 +118,7 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
     }, []);
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -144,7 +144,7 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
     }, []);
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',

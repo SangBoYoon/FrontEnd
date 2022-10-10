@@ -11,7 +11,7 @@ import { deleteUserLocalStorage } from '../../services/userControl';
 const logout = () => {
     try {
         axios
-            .post('/accounter/logout', {
+            .post(`${process.env.REACT_APP_DB_HOST}/accounter/logout`, {
                 accessToken: getAccessToken(),
                 refreshToken: getRefreshToken(),
             })
@@ -29,7 +29,7 @@ const logout = () => {
 const deleteUserMethod = () => {
     try {
         axios
-            .post('/accounter/user/delete', {
+            .post(`${process.env.REACT_APP_DB_HOST}/accounter/user/delete`, {
                 accessToken: getAccessToken(),
                 refreshToken: getRefreshToken(),
             })

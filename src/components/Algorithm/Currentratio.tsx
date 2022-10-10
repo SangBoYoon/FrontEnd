@@ -56,7 +56,7 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
 
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -424,12 +424,5 @@ const Alert = styled.div`
     margin-top: 65px;
     font-size: 13px;
 `;
-
-const UpperConatiner = styled.div`
-    display: flex;
-    height: 265px;
-`;
-
-const currentAssets = styled.div``;
 
 export default Currentratio;

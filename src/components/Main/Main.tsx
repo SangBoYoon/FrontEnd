@@ -11,10 +11,6 @@ import RecommendBlocks from './RecommendBlocks';
 import SearchInput from './SearchInput';
 import { bookmarkLoad } from '../../features/bookmark';
 import { corpType, setCorps } from '../../store/slices/corpsLoadSlice';
-import {
-    deleteAccessToken,
-    deleteRefreshToken,
-} from '../../services/tokenControl';
 
 const Main: React.FC = () => {
     const [newArr, setNewArr] = useState<Array<string>>([]);
@@ -45,13 +41,10 @@ const Main: React.FC = () => {
     useEffect(() => {
         if (user) {
             bookmarkLoad(dispatch);
-        } else {
-            deleteAccessToken();
-            deleteRefreshToken();
         }
 
         axios
-            .get('/accounter/corps')
+            .get(`http://54.180.19.84:8080/accounter/corps`)
             .then((res) => {
                 dispatch(setCorps(res.data.data));
             })

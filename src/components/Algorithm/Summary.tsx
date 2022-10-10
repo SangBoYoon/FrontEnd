@@ -1,12 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-nested-ternary */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import jStat from 'jstat';
 import styled from 'styled-components';
-import AccountingFraud from './AccountingFraud';
-import Currentratio from './Currentratio';
-import DelistReason from './DelistReason';
-import RevenueStability from './RevenueStability';
 
 type currentRatioType = {
     account_detail: string;
@@ -46,8 +43,6 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     const [accountList5, setAccountList5] = useState<accountType[]>([]); // 2017
     const [error, setError] = useState(null);
     const [dataEx, setDataEx] = useState(true); // api 에러
-    const [allRevenue, setAllRevenue] = useState([0, 0, 0, 0, 0]); // 2017 ~ 2021 영업수익
-    const [calculationResult, setCalculationResult] = useState(0); // 상관계수 결과
     const [noDataPrint, setNoDataPrint] = useState(false); // 5개년 데이터 없을 시
 
     const CRTFC_KEY = '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0';
@@ -57,19 +52,19 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
         axios
             .all([
                 axios.get(
-                    `/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2021&reprt_code=11011&fs_div=OFS`,
+                    `https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2021&reprt_code=11011&fs_div=OFS`,
                 ),
                 axios.get(
-                    `/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2020&reprt_code=11011&fs_div=OFS`,
+                    `https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2020&reprt_code=11011&fs_div=OFS`,
                 ),
                 axios.get(
-                    `/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2019&reprt_code=11011&fs_div=OFS`,
+                    `https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2019&reprt_code=11011&fs_div=OFS`,
                 ),
                 axios.get(
-                    `/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2018&reprt_code=11011&fs_div=OFS`,
+                    `https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2018&reprt_code=11011&fs_div=OFS`,
                 ),
                 axios.get(
-                    `/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2017&reprt_code=11011&fs_div=OFS`,
+                    `https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2017&reprt_code=11011&fs_div=OFS`,
                 ),
             ])
             .then(
@@ -143,13 +138,6 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                     value5 !== null &&
                     value5[0] !== undefined
                 ) {
-                    setAllRevenue([
-                        Number(value5[0].thstrm_amount),
-                        Number(value4[0].thstrm_amount),
-                        Number(value3[0].thstrm_amount),
-                        Number(value2[0].thstrm_amount),
-                        Number(value1[0].thstrm_amount),
-                    ]);
                     const result = [
                         Number(value5[0].thstrm_amount),
                         Number(value4[0].thstrm_amount),
@@ -210,7 +198,6 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                             }
                         }
                     };
-                    setCalculationResult(v);
 
                     revenueStabilityCal();
                     countScore();
@@ -228,8 +215,6 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    const [name2, setName2] = useState<string>('');
-
     const [financialStatements2021, setFinancialStatements2021] = useState<
         currentRatioType[]
     >([]);
@@ -254,25 +239,21 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
 
     useEffect(() => {
         axios({
-            url: '/api/company.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/company.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
                 corp_code: `${corpCode}`,
             },
-        })
-            .then((res) => {
-                setName2(res.data.corp_name2);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+        }).catch((err) => {
+            console.error(err);
+        });
         // open dart api를 통해 주식 종목명을 가져옴
     }, []);
 
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -298,7 +279,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     }, []);
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -433,17 +414,13 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     let currentratio = 0;
     // 유동비율;
     let currentratioPoint = 0;
-    // 유동비율 점수
-    const [currentratioSafety, setCurrentratioSafety] = useState('');
-    // 유동성키워드
-    const [currentratioExplanation, setCurrentratioExplanation] = useState('');
     // 유동비율 설명
     const [fatherArray, setFatherArray] = useState<currentRatioType[]>([]);
     const [noDataEx3, setNoDataEx3] = useState(false);
 
     useEffect(() => {
         axios({
-            url: '/api/company.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/company.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -461,7 +438,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
 
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -518,31 +495,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     } else {
         currentratioPoint = (currentratio / 200) * 100;
     }
-    // 유동비율을 200% 만점을 기준으로 점수를 계산함, 200%이상일 시 만점 처리함.
-    useEffect(() => {
-        switch (true) {
-            case currentratio <= 100:
-                setCurrentratioSafety('위기');
-                setCurrentratioExplanation(
-                    '유동비율이 100% 미만이라는 것은 1년 이내 갚아야 할 부채가 운용할 수 있는 자금보다 더 많다는 것을 의미합니다. ',
-                );
-                break;
-            case currentratio <= 150:
-                setCurrentratioSafety('주의');
-                break;
-            case currentratio <= 200:
-                setCurrentratioSafety('안정');
-                break;
-            case currentratio >= 200:
-                setCurrentratioSafety('매우 안정');
-                break;
-            default:
-                console.log('fail');
-                break;
-        }
-    }, [currentratio]);
 
-    const [name4, setName4] = useState<string>('');
     const [totalComprehensiveIncome2021, settotalComprehensiveIncome2021] =
         useState<number>(0);
     const [totalComprehensiveIncome2020, settotalComprehensiveIncome2020] =
@@ -570,25 +523,21 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
 
     useEffect(() => {
         axios({
-            url: '/api/company.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/company.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
                 corp_code: `${corpCode}`,
             },
-        })
-            .then((res) => {
-                setName4(res.data.corp_name4);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+        }).catch((err) => {
+            console.error(err);
+        });
         // open dart api를 통해 주식 종목명을 가져옴
     }, []);
 
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -614,7 +563,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     }, []);
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -640,7 +589,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     }, []);
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -666,7 +615,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     }, []);
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -889,25 +838,8 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
             }
         };
 
-        console.log(calLoading);
         summaryCal();
-        exactCal();
-        if (calLoading) {
-            console.log(summaryScore);
-        }
     }, [score, delistReason, currentratioPoint, accountingFraudPoint]);
-    const [exactVal, setExactVal] = useState('');
-    const exactCal = () => {
-        if (exact === 4) {
-            setExactVal('상');
-        } else if (exact === 3) {
-            setExactVal('중상');
-        } else if (exact === 2) {
-            setExactVal('중');
-        } else {
-            setExactVal('하');
-        }
-    };
 
     // 1번 결과 값 score
     // 2번 결과 값 delistReason

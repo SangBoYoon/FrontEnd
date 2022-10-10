@@ -660,8 +660,8 @@ const CorpAnalysis: React.FC = () => {
                     <path
                         d="M327.269 196.397L336.153 185.233L339.192 190.346L357.182 166.84L361.614 176.386L371.442 171.503L376.576 178.003L388.971 160.908L394.576 164.353L401.125 159.62"
                         stroke="white"
-                        stroke-miterlimit="10"
-                        stroke-linecap="round"
+                        strokeMiterlimit="10"
+                        strokeLinecap="round"
                     />
                     <path
                         d="M366.679 199.493C365.967 202.728 363.57 205.104 360.321 205.803C357.844 206.343 358.857 210.137 361.314 209.598C365.817 208.619 369.447 205.065 370.439 200.571C370.981 198.115 367.21 197.026 366.649 199.493H366.669H366.679Z"
@@ -816,8 +816,8 @@ const CorpAnalysis: React.FC = () => {
                             y2="207.043"
                             gradientUnits="userSpaceOnUse"
                         >
-                            <stop stop-color="#414182" />
-                            <stop offset="1" stop-color="#7171E3" />
+                            <stop stopColor="#414182" />
+                            <stop offset="1" stopColor="#7171E3" />
                         </linearGradient>
                     </defs>
                 </BannerSvg>

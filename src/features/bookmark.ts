@@ -9,7 +9,7 @@ export const bookmarkLoad = (dispatch: Dispatch<any>) => {
 
     axios
         .create({ headers: { Authorization: `Bearer ${accessToken}` } })
-        .get('/accounter/bookmark')
+        .get(`http://54.180.19.84:8080/accounter/bookmark`)
         .then((res) => {
             dispatch(setUserBookmarkList(res.data.data));
         })
@@ -19,9 +19,10 @@ export const bookmarkLoad = (dispatch: Dispatch<any>) => {
 
     axios
         .create({ headers: { Authorization: `Bearer ${accessToken}` } })
-        .get('/accounter/corp/like')
+        .get(`http://54.180.19.84:8080/accounter/corp/like`)
         .then((res) => {
             dispatch(setUserLikeList(res.data.data));
+            console.log(res.data.data);
         })
         .catch(() => {
             console.log('bookmark load fail');

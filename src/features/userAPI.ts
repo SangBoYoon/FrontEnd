@@ -10,7 +10,7 @@ export const userAPI = (dispatch: Dispatch<any>) => {
 
     if (token) {
         axios
-            .get('/accounter/user', {
+            .get(`http://54.180.19.84:8080/accounter/user`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
-    ChartData,
     CategoryScale,
     LinearScale,
     PointElement,
@@ -34,19 +33,19 @@ const RevenueStability = ({ corpCode }) => {
         axios
             .all([
                 axios.get(
-                    `/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2021&reprt_code=11011&fs_div=OFS`,
+                    `https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2021&reprt_code=11011&fs_div=OFS`,
                 ),
                 axios.get(
-                    `/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2020&reprt_code=11011&fs_div=OFS`,
+                    `https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2020&reprt_code=11011&fs_div=OFS`,
                 ),
                 axios.get(
-                    `/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2019&reprt_code=11011&fs_div=OFS`,
+                    `https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2019&reprt_code=11011&fs_div=OFS`,
                 ),
                 axios.get(
-                    `/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2018&reprt_code=11011&fs_div=OFS`,
+                    `https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2018&reprt_code=11011&fs_div=OFS`,
                 ),
                 axios.get(
-                    `/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2017&reprt_code=11011&fs_div=OFS`,
+                    `https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json?crtfc_key=${CRTFC_KEY}&corp_code=${corpCode}&bsns_year=2017&reprt_code=11011&fs_div=OFS`,
                 ),
             ])
             .then(

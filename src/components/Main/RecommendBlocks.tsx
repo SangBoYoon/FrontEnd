@@ -1,7 +1,8 @@
 /* eslint-disable react/require-default-props */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { corpLikeType } from '../../store/slices/userLikeListSlice';
 import { RootState } from '../../store/config';
 import { setLoginModal } from '../../store/slices/handleLoginModalSlice';
 import RecommendBlock from './RecommendBlock';
@@ -134,6 +135,14 @@ const RecommendBlocks: React.FC<{
     data?: corpDataType[];
     bookmarkData?: corpDataTypeBookmark[];
 }> = ({ type, data, bookmarkData }) => {
+    const [, setData] = useState({});
+    const LikeData = useSelector((state: RootState): corpLikeType[] => {
+        return state.userLike.array;
+    });
+
+    useEffect(() => {
+        setData({});
+    }, [LikeData]);
     const { user } = useSelector((state: RootState) => ({
         user: state.user.email,
     }));

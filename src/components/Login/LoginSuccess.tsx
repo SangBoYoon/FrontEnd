@@ -25,7 +25,7 @@ const LoginSuccess: React.FC = () => {
     useEffect(() => {
         if (!location.search) return;
         fn();
-        window.location.replace('/');
+        // window.location.replace('/');
     }, []);
 
     return <div>LoginSuccess</div>;

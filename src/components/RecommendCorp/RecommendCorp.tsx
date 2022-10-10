@@ -15,7 +15,7 @@ const RecommendCorp: React.FC = () => {
 
     useEffect(() => {
         axios
-            .get('/accounter/corps')
+            .get(`http://54.180.19.84:8080/accounter/corps`)
             .then((res) => {
                 dispatch(setCorps(res.data.data));
             })

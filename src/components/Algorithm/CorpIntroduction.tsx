@@ -19,7 +19,7 @@ const CorpIntroduction: React.FC<corpCodeType> = ({ corpCode }) => {
 
     useEffect(() => {
         axios({
-            url: '/api/company.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/company.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -36,7 +36,7 @@ const CorpIntroduction: React.FC<corpCodeType> = ({ corpCode }) => {
                 console.error(err);
             });
         axios({
-            url: `/accounter/corp/${corpCode}`,
+            url: `http://54.180.19.84:8080/accounter/corp/${corpCode}`,
             method: 'get',
         })
             .then((res) => {

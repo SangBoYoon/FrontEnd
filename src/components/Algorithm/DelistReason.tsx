@@ -32,8 +32,6 @@ type corpCodeType = {
 };
 
 const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
-    const [name, setName] = useState<string>('');
-
     const [financialStatements2021, setFinancialStatements2021] = useState<
         currentRatioType[]
     >([]);
@@ -70,25 +68,21 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
 
     useEffect(() => {
         axios({
-            url: '/api/company.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/company.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
                 corp_code: `${corpCode}`,
             },
-        })
-            .then((res) => {
-                setName(res.data.corp_name);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+        }).catch((err) => {
+            console.error(err);
+        });
         // open dart api를 통해 주식 종목명을 가져옴
     }, []);
 
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
@@ -114,7 +108,7 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
     }, []);
     useEffect(() => {
         axios({
-            url: '/api/fnlttSinglAcntAll.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',

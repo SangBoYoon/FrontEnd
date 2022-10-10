@@ -34,17 +34,17 @@ const Like: React.FC<likeComponenetType> = ({ corpCode }) => {
                     'Content-type': 'application/json',
                 },
             })
-            .post(`/accounter/corp/like/${corpCode}`)
+            .post(`http://54.180.19.84:8080/accounter/corp/like/${corpCode}`)
             .then(() => {
+                bookmarkLoad(dispatch);
                 axios
-                    .get('/accounter/corps')
+                    .get(`http://54.180.19.84:8080/accounter/corps`)
                     .then((res) => {
                         dispatch(setCorps(res.data.data));
                     })
                     .catch(() => {
                         console.log('corporations load err');
                     });
-                bookmarkLoad(dispatch);
             })
             .catch(() => {
                 console.log('like fail');
@@ -60,6 +60,7 @@ const Like: React.FC<likeComponenetType> = ({ corpCode }) => {
         LikeData.filter((i: corpLikeType) => i.corpCode === corpCode).length > 0
             ? setIsLike(true)
             : setIsLike(false);
+        console.log(corpCode, ':', isLike);
     }, [LikeData]);
 
     return (

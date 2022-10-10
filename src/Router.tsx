@@ -26,7 +26,6 @@ const Router = () => {
                 />
 
                 <Route path="/login/token" element={<LoginSuccess />} />
-                <Route path="/CorporationInfo" element={<CorporationInfo />} />
                 <Route path="/my" element={<Mypage />} />
                 <Route path="/recommend" element={<RecommendCorp />} />
             </Routes>

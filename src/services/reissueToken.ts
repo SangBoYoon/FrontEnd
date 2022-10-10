@@ -8,7 +8,7 @@ import {
 
 export const onSilentRefresh = () => {
     axios
-        .post('/accounter/reuissue', {
+        .post(`http://54.180.19.84:8080/accounter/reuissue`, {
             accessToken: getAccessToken(),
             refreshToken: getRefreshToken(),
         })

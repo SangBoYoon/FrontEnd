@@ -23,7 +23,7 @@ const StockFinder: React.FC = () => {
 
     const getAxiosCategory = (category: string) => {
         axios
-            .get('/accounter/corps')
+            .get(`http://54.180.19.84:8080/accounter/corps`)
             .then((res) => {
                 setCorps(res.data.data);
                 setSortedCorps(
@@ -45,7 +45,7 @@ const StockFinder: React.FC = () => {
             getAxiosCategory(category);
         } else {
             axios
-                .get('/accounter/corps')
+                .get(`http://54.180.19.84:8080/accounter/corps`)
                 .then((res) => {
                     setCorps(res.data.data);
                     setSortedCorps(res.data.data);

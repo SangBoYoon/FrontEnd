@@ -53,7 +53,7 @@ const ChangeUserInfo: React.FC<{ nickname: boolean }> = ({ nickname }) => {
         console.log(email);
 
         return axios
-            .post('/accounter/login', {
+            .post(`http://54.180.19.84:8080/accounter/login`, {
                 email,
                 password,
             })
@@ -78,7 +78,7 @@ const ChangeUserInfo: React.FC<{ nickname: boolean }> = ({ nickname }) => {
                 .then(() => {
                     axios
                         .patch(
-                            '/accounter/user',
+                            `http://54.180.19.84:8080/accounter/user`,
                             {
                                 nickName: inputChangeNickname,
                                 password: checkInputChangePassword,
@@ -115,7 +115,7 @@ const ChangeUserInfo: React.FC<{ nickname: boolean }> = ({ nickname }) => {
                     .then(() => {
                         axios
                             .patch(
-                                '/accounter/user',
+                                `http://54.180.19.84:8080/accounter/user`,
                                 {
                                     nickName: user.nickName,
                                     password: inputChangePassword,
