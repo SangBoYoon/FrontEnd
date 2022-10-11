@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-nested-ternary */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -228,7 +229,6 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    const [name2, setName2] = useState<string>('');
 
     const [financialStatements2021, setFinancialStatements2021] = useState<
         currentRatioType[]
@@ -251,24 +251,6 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     const [dataEx2, setDataEx2] = useState(true);
 
     const [noDataPrint2, setNoDataPrint2] = useState(false); // 2개년 데이터 없을 시
-
-    useEffect(() => {
-        axios({
-            url: '/api/company.json',
-            method: 'get',
-            params: {
-                crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
-                corp_code: `${corpCode}`,
-            },
-        })
-            .then((res) => {
-                setName2(res.data.corp_name2);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-        // open dart api를 통해 주식 종목명을 가져옴
-    }, []);
 
     useEffect(() => {
         axios({
@@ -337,7 +319,8 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                             man.account_nm === '수익(매출액)' ||
                             man.account_nm === '매출액' ||
                             man.account_nm === 'I. 매출액' ||
-                            man.account_nm === '매출',
+                            man.account_nm === '매출' ||
+                            man.account_nm === '영업수익',
                     );
 
                 const currentAssetsArray2020: any =
@@ -346,7 +329,8 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                             man.account_nm === '수익(매출액)' ||
                             man.account_nm === '매출액' ||
                             man.account_nm === 'I. 매출액' ||
-                            man.account_nm === '매출',
+                            man.account_nm === '매출' ||
+                            man.account_nm === '영업수익',
                     );
 
                 const CapitalArray2021: any = financialStatements2021.filter(
@@ -434,10 +418,6 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     // 유동비율;
     let currentratioPoint = 0;
     // 유동비율 점수
-    const [currentratioSafety, setCurrentratioSafety] = useState('');
-    // 유동성키워드
-    const [currentratioExplanation, setCurrentratioExplanation] = useState('');
-    // 유동비율 설명
     const [fatherArray, setFatherArray] = useState<currentRatioType[]>([]);
     const [noDataEx3, setNoDataEx3] = useState(false);
 
@@ -519,30 +499,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
         currentratioPoint = (currentratio / 200) * 100;
     }
     // 유동비율을 200% 만점을 기준으로 점수를 계산함, 200%이상일 시 만점 처리함.
-    useEffect(() => {
-        switch (true) {
-            case currentratio <= 100:
-                setCurrentratioSafety('위기');
-                setCurrentratioExplanation(
-                    '유동비율이 100% 미만이라는 것은 1년 이내 갚아야 할 부채가 운용할 수 있는 자금보다 더 많다는 것을 의미합니다. ',
-                );
-                break;
-            case currentratio <= 150:
-                setCurrentratioSafety('주의');
-                break;
-            case currentratio <= 200:
-                setCurrentratioSafety('안정');
-                break;
-            case currentratio >= 200:
-                setCurrentratioSafety('매우 안정');
-                break;
-            default:
-                console.log('fail');
-                break;
-        }
-    }, [currentratio]);
 
-    const [name4, setName4] = useState<string>('');
     const [totalComprehensiveIncome2021, settotalComprehensiveIncome2021] =
         useState<number>(0);
     const [totalComprehensiveIncome2020, settotalComprehensiveIncome2020] =
@@ -567,24 +524,6 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     );
     const [dataEx4, setDataEx4] = useState(true);
     const [noDataPrint4, setNoDataPrint4] = useState(false); // 4개년 데이터 없을 시
-
-    useEffect(() => {
-        axios({
-            url: '/api/company.json',
-            method: 'get',
-            params: {
-                crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',
-                corp_code: `${corpCode}`,
-            },
-        })
-            .then((res) => {
-                setName4(res.data.corp_name4);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-        // open dart api를 통해 주식 종목명을 가져옴
-    }, []);
 
     useEffect(() => {
         axios({
@@ -704,16 +643,24 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                 fatherArray2018 !== undefined
             ) {
                 const currentAssetsArray2021: any = fatherArray2021.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2020: any = fatherArray2020.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2019: any = fatherArray2019.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2018: any = fatherArray2018.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 if (
                     currentAssetsArray2021[0] !== null &&

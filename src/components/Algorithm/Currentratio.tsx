@@ -238,10 +238,9 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
         }
         if (currentAssets > currentLiabilities) {
             setCurrentAssetsVScurrentLiabilities(true);
-            setSlicePoint(Math.floor(currentratioPoint));
         } else setCurrentAssetsVScurrentLiabilities(false);
-        setSlicePoint(Math.floor(currentratioPoint));
-    }, [currentAssets]);
+        setSlicePoint(Math.round(currentratioPoint));
+    }, [currentAssets, currentratioPoint]);
 
     return (
         <Inner>
@@ -314,13 +313,12 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
     );
 };
 
-const Inner = styled.div`
-    margin-top: 13px;
-    margin-left: 18px;
-`;
+const Inner = styled.div``;
 
 const UpperTupel = styled.div`
     display: flex;
+    justify-content: space-between;
+    width: 914px;
 `;
 
 const WhiteBox = styled.div`
@@ -328,7 +326,6 @@ const WhiteBox = styled.div`
     height: 265px;
     background-color: #ffffff;
     border-radius: 15px;
-    margin-right: 18px;
 `;
 
 const WhiteBoxName = styled.h1`
