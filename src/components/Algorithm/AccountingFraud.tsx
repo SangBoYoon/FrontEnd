@@ -182,17 +182,30 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
                 fatherArray2018 !== undefined
             ) {
                 const currentAssetsArray2021: any = fatherArray2021.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '총포괄손익.' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2020: any = fatherArray2020.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '총포괄손익.' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2019: any = fatherArray2019.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '총포괄손익.' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2018: any = fatherArray2018.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '총포괄손익.' ||
+                        man.account_nm === '당기총포괄손익',
                 );
+                console.log(currentAssetsArray2018);
                 if (
                     currentAssetsArray2021[0] !== null &&
                     currentAssetsArray2021[0] !== undefined &&
@@ -320,6 +333,7 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
         } else {
             setResult2021('흑자');
         }
+        console.log(result2021);
     }, [totalComprehensiveIncome2018]);
 
     return (
@@ -403,9 +417,7 @@ const Inner = styled.div`
 `;
 
 const AccountingFraudContainer = styled.div`
-    margin-top: 24px;
     width: 912px;
-    margin-right: 19px;
     display: flex;
     justify-content: space-between;
 `;
@@ -429,12 +441,6 @@ const RightBox = styled.div`
     height: 265px;
     background-color: white;
     border-radius: 15px;
-    h1 {
-        font-size: 13px;
-        color: #4f4f4f;
-        margin-left: 20px;
-        padding-top: 20px;
-    }
     h2 {
         margin-left: 20px;
         margin-right: 20px;
@@ -447,6 +453,7 @@ const WhiteBoxName = styled.h1`
     font-size: 13px;
     color: #4f4f4f;
     margin-left: 20px;
+    margin-top: 20px;
 `;
 
 const LeftBoxLine = styled.div`
