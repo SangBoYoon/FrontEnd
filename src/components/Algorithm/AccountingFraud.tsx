@@ -340,7 +340,7 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
         <div>
             {noDataPrint ? (
                 <NoData>
-                    <h2>수익안전성</h2>
+                    <h2>분식가능성</h2>
                     <div>입력된 데이터가 없어요 😥 </div>
                 </NoData>
             ) : (
@@ -412,7 +412,7 @@ const Inner = styled.div`
     .alert {
         width: 913px;
         margin-top: 65px;
-        font-size: 13px;
+        font-size: 12px;
     }
 `;
 

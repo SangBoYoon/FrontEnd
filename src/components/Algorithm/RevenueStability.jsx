@@ -26,6 +26,7 @@ const RevenueStability = ({ corpCode }) => {
     const [allRevenue, setAllRevenue] = useState([0, 0, 0, 0, 0]); // 2017 ~ 2021 영업수익
     const [calculationResult, setCalculationResult] = useState(0); // 상관계수 결과
     const [noDataPrint, setNoDataPrint] = useState(false); // 5개년 데이터 없을 시
+    const [loading, setLoading] = useState(true);
 
     const CRTFC_KEY = '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0';
 
@@ -207,9 +208,9 @@ const RevenueStability = ({ corpCode }) => {
                             }
                         }
                     };
+
                     setCalculationResult(v);
 
-                    console.log(calculationResult);
                     revenueStabilityCal();
                     countScore();
                 }
@@ -218,6 +219,8 @@ const RevenueStability = ({ corpCode }) => {
 
                 console.log('데이터없음');
             }
+            setLoading(false);
+            console.log(loading);
         }
     }, [accountList1, accountList2, accountList3, accountList4, accountList5]);
 
@@ -294,113 +297,119 @@ const RevenueStability = ({ corpCode }) => {
 
     return (
         <div>
-            <div>
-                {noDataPrint ? (
-                    <NoData>
-                        <h2>수익안전성</h2>
-                        <div>입력된 데이터가 없어요 😥 </div>
-                    </NoData>
-                ) : (
-                    <Inner>
-                        <TopBoxWrapper>
-                            <TopBox>
-                                <span>
-                                    <h1>영업수익 변화</h1>
-                                    <h3>2017~2021년</h3>
-                                </span>
-                                <span>
-                                    <Line
-                                        options={options}
-                                        type="line"
-                                        data={data}
-                                    />
-                                </span>
-                                <span>
-                                    <h2>2017</h2>
-                                    <h2>2018</h2>
-                                    <h2>2019</h2>
-                                    <h2>2020</h2>
-                                    <h2>2021</h2>
-                                </span>
-                            </TopBox>
-                            <TopBox>
-                                <span>
-                                    <h1>상관계수</h1>
-                                    <h3>-1 ~ 1</h3>
-                                </span>
-                                <span>
-                                    <Line
-                                        options={options}
-                                        type="scatter"
-                                        data={data2}
-                                    />
-                                </span>
-                                <span>
+            {loading ? (
+                <div>로딩중 </div>
+            ) : (
+                <div>
+                    {noDataPrint ? (
+                        <NoData>
+                            <h2>수익안전성</h2>
+                            <div>입력된 데이터가 없어요 😥 </div>
+                        </NoData>
+                    ) : (
+                        <Inner>
+                            <TopBoxWrapper>
+                                <TopBox>
+                                    <span>
+                                        <h1>영업수익 변화</h1>
+                                        <h3>2017~2021년</h3>
+                                    </span>
+                                    <span>
+                                        <Line
+                                            options={options}
+                                            type="line"
+                                            data={data}
+                                        />
+                                    </span>
+                                    <span>
+                                        <h2>2017</h2>
+                                        <h2>2018</h2>
+                                        <h2>2019</h2>
+                                        <h2>2020</h2>
+                                        <h2>2021</h2>
+                                    </span>
+                                </TopBox>
+                                <TopBox>
+                                    <span>
+                                        <h1>상관계수</h1>
+                                        <h3>-1 ~ 1</h3>
+                                    </span>
+                                    <span>
+                                        <Line
+                                            options={options}
+                                            type="scatter"
+                                            data={data2}
+                                        />
+                                    </span>
+                                    <span>
+                                        <h1>
+                                            {Math.round(
+                                                calculationResult * 10,
+                                            ) / 10}
+                                        </h1>
+                                    </span>
+                                </TopBox>
+                                <TopBox>
+                                    <span>
+                                        <h1>영업수익의 적자</h1>
+                                        <div />
+                                    </span>
+
+                                    <span>
+                                        <span>
+                                            <h4>1년 적자</h4>
+                                            <h4>-10점</h4>
+                                        </span>
+                                        <span>
+                                            <h4>2년 적자</h4>
+                                            <h4>-20점</h4>
+                                        </span>
+                                        <span>
+                                            <h4>3년 적자</h4>
+                                            <h4>-30점</h4>
+                                        </span>
+                                        <span>
+                                            <h4>3년 연속 적자</h4>
+                                            <h4>-40점</h4>
+                                        </span>
+                                    </span>
+                                </TopBox>
+                            </TopBoxWrapper>
+                            <BottomBox>
+                                <h3>영업수익 변화</h3>
+                                <h5>
+                                    기업의 5개년 영업 수익을 통한 상관 계수와
+                                    영업 수익 적자별 점수를 합산하여 수익안전성
+                                    점검 점수를 산출합니다.
+                                </h5>
+
+                                <div>
                                     <h1>
-                                        {Math.round(calculationResult * 10) /
-                                            10}
+                                        {score <= 100 && score >= 75
+                                            ? '🚀 수익이 계속 성장하고 있어요.'
+                                            : // eslint-disable-next-line no-nested-ternary
+                                            score < 75 && score >= 50
+                                            ? '🔥 수익이 불안정하지만 성장하고 있어요. '
+                                            : score < 50 && score >= 25
+                                            ? '😣 수익이 불안정하고 하락세예요.'
+                                            : '🥶 수익이 계속 하락하고 있어요.'}
                                     </h1>
-                                </span>
-                            </TopBox>
-                            <TopBox>
-                                <span>
-                                    <h1>영업수익의 적자</h1>
-                                    <div />
-                                </span>
+                                    <h2>{score}점</h2>
+                                </div>
+                            </BottomBox>
 
-                                <span>
-                                    <span>
-                                        <h4>1년 적자</h4>
-                                        <h4>-10점</h4>
-                                    </span>
-                                    <span>
-                                        <h4>2년 적자</h4>
-                                        <h4>-20점</h4>
-                                    </span>
-                                    <span>
-                                        <h4>3년 적자</h4>
-                                        <h4>-30점</h4>
-                                    </span>
-                                    <span>
-                                        <h4>3년 연속 적자</h4>
-                                        <h4>-40점</h4>
-                                    </span>
-                                </span>
-                            </TopBox>
-                        </TopBoxWrapper>
-                        <BottomBox>
-                            <h3>영업수익 변화</h3>
-                            <h5>
-                                기업의 5개년 영업 수익을 통한 상관 계수와 영업
-                                수익 적자별 점수를 합산하여 수익안전성 점검
-                                점수를 산출합니다.
-                            </h5>
-
-                            <div>
-                                <h1>
-                                    {score <= 100 && score >= 75
-                                        ? '🚀 수익이 계속 성장하고 있어요.'
-                                        : // eslint-disable-next-line no-nested-ternary
-                                        score < 75 && score >= 50
-                                        ? '🔥 수익이 불안정하지만 성장하고 있어요. '
-                                        : score < 50 && score >= 25
-                                        ? '😣 수익이 불안정하고 하락세예요.'
-                                        : '🥶 수익이 계속 하락하고 있어요.'}
-                                </h1>
-                                <h2>{score}점</h2>
-                            </div>
-                        </BottomBox>
-
-                        <Info>
-                            Accouter가 제공하는 금융 정보는 각 콘텐츠
-                            제공업체로부터 받는 정보로 투자 참고사항이며, 오류가
-                            발생하거나 지연될 수 있습니다. Accouter는 제공된
-                            정보에 의한 투자결과에 법적책임을 지지 않습니다.
-                            게시된 정보는 무단으로 배포할 수 없습니다.
-                        </Info>
-                    </Inner>
-                )}
-            </div>
+                            <Info>
+                                Accouter가 제공하는 금융 정보는 각 콘텐츠
+                                제공업체로부터 받는 정보로 투자 참고사항이며,
+                                오류가 발생하거나 지연될 수 있습니다. Accouter는
+                                제공된 정보에 의한 투자결과에 법적책임을 지지
+                                않습니다. 게시된 정보는 무단으로 배포할 수
+                                없습니다.
+                            </Info>
+                        </Inner>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
@@ -440,6 +449,7 @@ const NoData = styled.div`
 const Info = styled.div`
     width: 913px;
     height: 265px;
+    font-size: 12px;
 `;
 
 const Inner = styled.div`

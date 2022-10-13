@@ -245,7 +245,10 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
     return (
         <Inner>
             {noDataPrint ? (
-                '데이터 없슬 때 띄울 화면'
+                <NoData>
+                    <h2>유동비율</h2>
+                    <div>입력된 데이터가 없어요 😥 </div>
+                </NoData>
             ) : (
                 <>
                     <UpperTupel>
@@ -312,6 +315,37 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
         </Inner>
     );
 };
+const NoData = styled.div`
+    width: 292px;
+    height: 265px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    h2 {
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 16px;
+
+        color: #4f4f4f;
+    }
+
+    div {
+        font-size: 14px;
+        line-height: 18px;
+        /* identical to box height */
+
+        text-align: center;
+
+        color: #737373;
+        margin: auto;
+    }
+`;
 
 const Inner = styled.div``;
 
@@ -410,6 +444,7 @@ const DownTuple = styled.div`
         color: #bebfc5;
         margin-top: 80px;
         margin-left: 20px;
+        font-size: 12px;
     }
 `;
 

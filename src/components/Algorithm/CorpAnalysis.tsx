@@ -916,7 +916,7 @@ const CorpAnalysis: React.FC = () => {
                             ])
                         }
                     >
-                        분석가능성
+                        분식가능성
                     </NavBtn>
                     <div />
                     <NavBtn
@@ -996,7 +996,7 @@ const NavBtn = styled.button`
 
 const Inner = styled.div`
     width: 100%;
-    height: 300vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;
