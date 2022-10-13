@@ -92,7 +92,7 @@ const LoginModal: React.FC<modalType> = ({ modal }) => {
                     userAPI(dispatch);
                     setInterval(onSilentRefresh, 1200000);
 
-                    // window.location.replace('/');
+                    window.location.replace('/');
                 } catch {
                     console.log('login err');
                 }

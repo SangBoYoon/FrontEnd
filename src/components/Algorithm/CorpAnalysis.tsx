@@ -916,7 +916,7 @@ const CorpAnalysis: React.FC = () => {
                             ])
                         }
                     >
-                        분석가능성
+                        분식가능성
                     </NavBtn>
                     <div />
                     <NavBtn

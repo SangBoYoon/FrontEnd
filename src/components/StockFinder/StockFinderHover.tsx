@@ -24,7 +24,7 @@ const StockFinderHover: React.FC<corpPropsType> = ({ corpCode }) => {
 
     useEffect(() => {
         axios({
-            url: '/api/company.json',
+            url: 'https://accountercors.herokuapp.com/https://opendart.fss.or.kr/api/company.json',
             method: 'get',
             params: {
                 crtfc_key: '1d00d3d38aaeb4136245a7f8fc10b595c5d6dab0',

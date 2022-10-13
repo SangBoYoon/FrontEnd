@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import BookmarkBtn from '../Common/BookmarkBtn';
 
 type corpCodeType = {
     corpCode: string;
@@ -60,11 +61,13 @@ const CorpIntroduction: React.FC<corpCodeType> = ({ corpCode }) => {
                 <InformatioTupel>전화번호 {phoneNum}</InformatioTupel>
                 <InformatioTupel>종목코드 {stockCode}</InformatioTupel>
             </Information>
+            <BookmarkBtn corpCode={corpCode} />
         </Inner>
     );
 };
 
 const Inner = styled.div`
+    position: relative;
     width: 912px;
     height: 167px;
     background-color: #ededed;

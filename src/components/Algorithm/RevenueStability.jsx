@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import jStat from 'jstat';
 import styled from 'styled-components';
-import { Line } from 'react-chartjs-2';
+import { Line, Scatter } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -328,7 +328,7 @@ const RevenueStability = ({ corpCode }) => {
                                     <h3>-1 ~ 1</h3>
                                 </span>
                                 <span>
-                                    <Line
+                                    <Scatter
                                         options={options}
                                         type="scatter"
                                         data={data2}
