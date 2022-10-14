@@ -215,6 +215,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     const [financialStatements2021, setFinancialStatements2021] = useState<
         currentRatioType[]
     >([]);
@@ -318,7 +319,8 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                             man.account_nm === '수익(매출액)' ||
                             man.account_nm === '매출액' ||
                             man.account_nm === 'I. 매출액' ||
-                            man.account_nm === '매출',
+                            man.account_nm === '매출' ||
+                            man.account_nm === '영업수익',
                     );
 
                 const currentAssetsArray2020: any =
@@ -327,7 +329,8 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                             man.account_nm === '수익(매출액)' ||
                             man.account_nm === '매출액' ||
                             man.account_nm === 'I. 매출액' ||
-                            man.account_nm === '매출',
+                            man.account_nm === '매출' ||
+                            man.account_nm === '영업수익',
                     );
 
                 const CapitalArray2021: any = financialStatements2021.filter(
@@ -414,7 +417,8 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     let currentratio = 0;
     // 유동비율;
     let currentratioPoint = 0;
-    // 유동비율 설명
+
+    // 유동비율 점수
     const [fatherArray, setFatherArray] = useState<currentRatioType[]>([]);
     const [noDataEx3, setNoDataEx3] = useState(false);
 
@@ -495,6 +499,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     } else {
         currentratioPoint = (currentratio / 200) * 100;
     }
+    // 유동비율을 200% 만점을 기준으로 점수를 계산함, 200%이상일 시 만점 처리함.
 
     const [totalComprehensiveIncome2021, settotalComprehensiveIncome2021] =
         useState<number>(0);
@@ -653,16 +658,24 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                 fatherArray2018 !== undefined
             ) {
                 const currentAssetsArray2021: any = fatherArray2021.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2020: any = fatherArray2020.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2019: any = fatherArray2019.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2018: any = fatherArray2018.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 if (
                     currentAssetsArray2021[0] !== null &&

@@ -122,6 +122,7 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
             .then((res) => {
                 if (res !== null && res !== undefined) {
                     setFinancialStatements2020(res.data.list);
+                    console.log(res.data.list);
                 } else {
                     setDataEx(false);
                     console.log('dart open api에 데이터가 존재하지 않음');
@@ -145,7 +146,9 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
                         (man: currentRatioType) =>
                             man.account_nm === '수익(매출액)' ||
                             man.account_nm === '매출액' ||
-                            man.account_nm === 'I. 매출액',
+                            man.account_nm === 'I. 매출액' ||
+                            man.account_nm === '매출' ||
+                            man.account_nm === '영업수익',
                     );
 
                 const currentAssetsArray2020: any =
@@ -153,7 +156,9 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
                         (man: currentRatioType) =>
                             man.account_nm === '수익(매출액)' ||
                             man.account_nm === '매출액' ||
-                            man.account_nm === 'I. 매출액',
+                            man.account_nm === 'I. 매출액' ||
+                            man.account_nm === '매출' ||
+                            man.account_nm === '영업수익',
                     );
 
                 const CapitalArray2021: any = financialStatements2021.filter(
@@ -486,7 +491,7 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
     return (
         <div>
             {noDataPrint ? (
-                '데이터 없슬 때 띄울 화면'
+                '데이터 없슬 때 띄울 화면d'
             ) : (
                 <>
                     <UpperTupel>
@@ -611,7 +616,7 @@ const WhiteBox = styled.div`
     height: 265px;
     background-color: #ffffff;
     border-radius: 15px;
-    margin-right: 18px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -624,7 +629,8 @@ const WhiteBoxName = styled.h1`
 
 const UpperTupel = styled.div`
     display: flex;
-    margin-top: 24px;
+    justify-content: space-between;
+    width: 914px;
 `;
 
 const CapitalTotalequityContainer = styled.div`

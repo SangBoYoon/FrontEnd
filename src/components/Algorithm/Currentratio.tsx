@@ -39,6 +39,7 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
     // 유동비율;
     const [currentratioPoint, setCurrentratioPoint] = useState(0);
     // 유동비율 점수
+    const [slicePoint, setSlicePoint] = useState(0);
 
     const [currentratioKeyword, setCurrentratioKeyword] = useState('');
     // 유동성키워드
@@ -53,6 +54,10 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
     const [currentLiabilitiesUnit, setCurrentLiabilitiesUnit] = useState('');
     const [sliceCurrentLiabilities, setSliceCurrentLiabilities] = useState('');
     const [noDataPrint, setNoDataPrint] = useState(false); // 2개년 데이터 없을 시
+    const [
+        currentAssetsVScurrentLiabilities,
+        setCurrentAssetsVScurrentLiabilities,
+    ] = useState(true);
 
     useEffect(() => {
         axios({
@@ -155,16 +160,16 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
             setCurrentAssetsUnit('억');
             switch (String(currentAssets).length) {
                 case 9:
-                    setSliceCurrentratio(String(currentAssets).substring(0, 2));
+                    setSliceCurrentratio(String(currentAssets).substring(0, 1));
                     break;
                 case 10:
-                    setSliceCurrentratio(String(currentAssets).substring(0, 3));
+                    setSliceCurrentratio(String(currentAssets).substring(0, 2));
                     break;
                 case 11:
-                    setSliceCurrentratio(String(currentAssets).substring(0, 4));
+                    setSliceCurrentratio(String(currentAssets).substring(0, 3));
                     break;
                 case 12:
-                    setSliceCurrentratio(String(currentAssets).substring(0, 5));
+                    setSliceCurrentratio(String(currentAssets).substring(0, 4));
                     break;
                 default:
                     console.log('err');
@@ -183,22 +188,22 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
             switch (String(currentLiabilities).length) {
                 case 9:
                     setSliceCurrentLiabilities(
-                        String(currentLiabilities).substring(0, 2),
+                        String(currentLiabilities).substring(0, 1),
                     );
                     break;
                 case 10:
                     setSliceCurrentLiabilities(
-                        String(currentLiabilities).substring(0, 3),
+                        String(currentLiabilities).substring(0, 2),
                     );
                     break;
                 case 11:
                     setSliceCurrentLiabilities(
-                        String(currentLiabilities).substring(0, 4),
+                        String(currentLiabilities).substring(0, 3),
                     );
                     break;
                 case 12:
                     setSliceCurrentLiabilities(
-                        String(currentLiabilities).substring(0, 5),
+                        String(currentLiabilities).substring(0, 4),
                     );
                     break;
                 default:
@@ -209,29 +214,33 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
             switch (String(currentLiabilities).length) {
                 case 13:
                     setSliceCurrentLiabilities(
-                        String(currentLiabilities).substring(0, 2),
+                        String(currentLiabilities).substring(0, 1),
                     );
                     break;
                 case 14:
                     setSliceCurrentLiabilities(
-                        String(currentLiabilities).substring(0, 3),
+                        String(currentLiabilities).substring(0, 2),
                     );
                     break;
                 case 15:
                     setSliceCurrentLiabilities(
-                        String(currentLiabilities).substring(0, 4),
+                        String(currentLiabilities).substring(0, 3),
                     );
                     break;
                 case 16:
                     setSliceCurrentLiabilities(
-                        String(currentLiabilities).substring(0, 5),
+                        String(currentLiabilities).substring(0, 4),
                     );
                     break;
                 default:
                     console.log('err');
             }
         }
-    }, [currentAssets]);
+        if (currentAssets > currentLiabilities) {
+            setCurrentAssetsVScurrentLiabilities(true);
+        } else setCurrentAssetsVScurrentLiabilities(false);
+        setSlicePoint(Math.round(currentratioPoint));
+    }, [currentAssets, currentratioPoint]);
 
     return (
         <Inner>
@@ -242,7 +251,9 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
                     <UpperTupel>
                         <WhiteBox>
                             <WhiteBoxName>유동자산/유동부채</WhiteBoxName>
-                            <CurrentAssetsLiabilitiesContainer>
+                            <CurrentAssetsLiabilitiesContainer
+                                colorHow={currentAssetsVScurrentLiabilities}
+                            >
                                 <div className="blue">
                                     <p>
                                         {sliceCurrentratio}
@@ -281,7 +292,7 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
                         </h2>
                         <DownTupleContentContainer>
                             <p>{currentratioMent}</p>
-                            <h2>{currentratioPoint}점</h2>
+                            <h2> {slicePoint}점</h2>
                         </DownTupleContentContainer>
                         <p className="alert">
                             {dangerAlert
@@ -302,12 +313,12 @@ const Currentratio: React.FC<corpCodeType> = ({ corpCode }) => {
     );
 };
 
-const Inner = styled.div`
-    margin-top: 24px;
-`;
+const Inner = styled.div``;
 
 const UpperTupel = styled.div`
     display: flex;
+    justify-content: space-between;
+    width: 914px;
 `;
 
 const WhiteBox = styled.div`
@@ -315,7 +326,6 @@ const WhiteBox = styled.div`
     height: 265px;
     background-color: #ffffff;
     border-radius: 15px;
-    margin-right: 18px;
 `;
 
 const WhiteBoxName = styled.h1`
@@ -325,7 +335,7 @@ const WhiteBoxName = styled.h1`
     margin-top: 20px;
 `;
 
-const CurrentAssetsLiabilitiesContainer = styled.div`
+const CurrentAssetsLiabilitiesContainer = styled.div<{ colorHow: boolean }>`
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -339,7 +349,7 @@ const CurrentAssetsLiabilitiesContainer = styled.div`
         font-size: 47px;
     }
     .blue {
-        color: #0064ff;
+        color: ${(props) => (props.colorHow ? '#146DF7' : '#737373')};
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -348,7 +358,7 @@ const CurrentAssetsLiabilitiesContainer = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
-        color: #4a4b4f;
+        color: ${(props) => (props.colorHow ? '#737373' : '#146DF7')};
     }
 `;
 

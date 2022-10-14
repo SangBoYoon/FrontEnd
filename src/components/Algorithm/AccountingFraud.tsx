@@ -182,17 +182,30 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
                 fatherArray2018 !== undefined
             ) {
                 const currentAssetsArray2021: any = fatherArray2021.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '총포괄손익.' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2020: any = fatherArray2020.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '총포괄손익.' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2019: any = fatherArray2019.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '총포괄손익.' ||
+                        man.account_nm === '당기총포괄손익',
                 );
                 const currentAssetsArray2018: any = fatherArray2018.filter(
-                    (man: currentRatioType) => man.account_nm === '총포괄손익',
+                    (man: currentRatioType) =>
+                        man.account_nm === '총포괄손익' ||
+                        man.account_nm === '총포괄손익.' ||
+                        man.account_nm === '당기총포괄손익',
                 );
+                console.log(currentAssetsArray2018);
                 if (
                     currentAssetsArray2021[0] !== null &&
                     currentAssetsArray2021[0] !== undefined &&
@@ -320,12 +333,16 @@ const AccountingFraud: React.FC<corpCodeType> = ({ corpCode }) => {
         } else {
             setResult2021('흑자');
         }
+        console.log(result2021);
     }, [totalComprehensiveIncome2018]);
 
     return (
         <div>
             {noDataPrint ? (
-                '데이터 없슬 때 띄울 화면'
+                <NoData>
+                    <h2>수익안전성</h2>
+                    <div>입력된 데이터가 없어요 😥 </div>
+                </NoData>
             ) : (
                 <Inner>
                     <AccountingFraudContainer>
@@ -400,9 +417,7 @@ const Inner = styled.div`
 `;
 
 const AccountingFraudContainer = styled.div`
-    margin-top: 24px;
     width: 912px;
-    margin-right: 19px;
     display: flex;
     justify-content: space-between;
 `;
@@ -426,12 +441,6 @@ const RightBox = styled.div`
     height: 265px;
     background-color: white;
     border-radius: 15px;
-    h1 {
-        font-size: 13px;
-        color: #4f4f4f;
-        margin-left: 20px;
-        padding-top: 20px;
-    }
     h2 {
         margin-left: 20px;
         margin-right: 20px;
@@ -477,6 +486,37 @@ const LeftBoxTupel = styled.div<{ textShow: number }>`
     margin-top: 20px;
     p {
         color: ${(props) => (props.textShow === 1 ? '#0064FF' : '#BEBFC5')};
+    }
+`;
+const NoData = styled.div`
+    width: 292px;
+    height: 265px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    h2 {
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 16px;
+
+        color: #4f4f4f;
+    }
+
+    div {
+        font-size: 14px;
+        line-height: 18px;
+        /* identical to box height */
+
+        text-align: center;
+
+        color: #737373;
+        margin: auto;
     }
 `;
 export default AccountingFraud;
