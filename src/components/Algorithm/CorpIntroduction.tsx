@@ -66,9 +66,10 @@ const CorpIntroduction: React.FC<corpCodeType> = ({ corpCode }) => {
 
 const Inner = styled.div`
     width: 912px;
-    height: 167px;
+
     background-color: #ededed;
     border-radius: 15px;
+    box-sizing: border-box;
 `;
 
 const Header = styled.div`
@@ -94,6 +95,8 @@ const CorpNameCategoryContainer = styled.div`
 
 const Information = styled.div`
     margin-top: 17px;
+    margin-bottom: 17px;
+
     color: #4a4b4f;
     display: flex;
     flex-direction: column;

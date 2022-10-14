@@ -477,7 +477,10 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
     return (
         <div>
             {noDataPrint ? (
-                '데이터 없슬 때 띄울 화면d'
+                <NoData>
+                    <h2>관리종목/상장폐지</h2>
+                    <div>입력된 데이터가 없어요 😥 </div>
+                </NoData>
             ) : (
                 <>
                     <UpperTupel>
@@ -589,6 +592,38 @@ const DelistReason: React.FC<corpCodeType> = ({ corpCode }) => {
     );
 };
 
+const NoData = styled.div`
+    width: 292px;
+    height: 265px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    h2 {
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 16px;
+
+        color: #4f4f4f;
+    }
+
+    div {
+        font-size: 14px;
+        line-height: 18px;
+        /* identical to box height */
+
+        text-align: center;
+
+        color: #737373;
+        margin: auto;
+    }
+`;
+
 const Header = styled.div`
     width: 100%;
     display: flex;
@@ -638,9 +673,11 @@ const CapitalTotalequityContainer = styled.div`
 
 const CapitalImpairment2021Container = styled.div`
     width: 213px;
-    margin-top: 20px;
+    height: 100%;
+
     display: flex;
     justify-content: space-between;
+
     align-items: center;
     color: #0064ff;
     h2 {
@@ -708,6 +745,7 @@ const DownTuple = styled.div`
         color: #bebfc5;
         margin-top: 80px;
         margin-left: 20px;
+        font-size: 12px;
     }
 `;
 

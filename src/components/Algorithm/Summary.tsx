@@ -760,22 +760,15 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     const [sliceLoading, setSliceLoading] = useState(false);
     const [calLoading, setCalLoading] = useState(false);
     const [exact, setExact] = useState(0);
+    const totalScore = [
+        score,
+        delistReason,
+        currentratioPoint,
+        accountingFraudPoint,
+    ];
+    const dataExValue = [noDataPrint, noDataPrint2, noDataEx3, noDataPrint4];
 
     useEffect(() => {
-        const totalScore = [
-            score,
-            delistReason,
-            currentratioPoint,
-            accountingFraudPoint,
-        ];
-        const dataExValue = [
-            noDataPrint,
-            noDataPrint2,
-            noDataEx3,
-            noDataPrint4,
-        ];
-        console.log(dataExValue);
-
         // eslint-disable-next-line no-plusplus
         for (let i = 0; i < dataExValue.length; i++) {
             if (
@@ -791,48 +784,38 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
                 i--;
             }
         }
-        setSliceLoading(true);
-        console.log(sliceLoading);
-        console.log(dataExValue);
-        console.log(totalScore);
+    }, []);
 
+    useEffect(() => {
         const summaryCal = () => {
-            if (sliceLoading) {
-                if (noDataEx3 === true) {
-                    setNoSummary(true);
-                    setSummaryScore(0);
-                } else if (dataExValue.length === 4) {
-                    const v = Math.round(
-                        score * 0.25 +
-                            delistReason * 0.25 +
-                            currentratioPoint * 0.25 +
-                            accountingFraudPoint * 0.25,
-                    );
-                    setExact(4);
-                    setSummaryScore(v);
-                    setCalLoading(true);
-                } else if (dataExValue.length === 3) {
-                    const v = Math.round(
-                        totalScore[0] * 0.33 +
-                            totalScore[1] * 0.33 +
-                            totalScore[2] * 0.33,
-                    );
-                    setExact(3);
-                    setSummaryScore(v);
-                    setCalLoading(true);
-                } else if (dataExValue.length === 2) {
-                    const v = Math.round(
-                        totalScore[0] * 0.5 + totalScore[1] * 0.5,
-                    );
-                    setExact(2);
-                    setSummaryScore(v);
-                    setCalLoading(true);
-                } else {
-                    const v = Math.round(totalScore[0]);
-                    setExact(1);
-                    setSummaryScore(v);
-                    setCalLoading(true);
-                }
+            if (noDataEx3 === true) {
+                setNoSummary(true);
+                setSummaryScore(0);
+            } else if (dataExValue.length === 4) {
+                const v = Math.round(
+                    score * 0.25 +
+                        delistReason * 0.25 +
+                        currentratioPoint * 0.25 +
+                        accountingFraudPoint * 0.25,
+                );
+                setExact(4);
+                setSummaryScore(v);
+            } else if (dataExValue.length === 3) {
+                const v = Math.round(
+                    totalScore[0] * 0.33 +
+                        totalScore[1] * 0.33 +
+                        totalScore[2] * 0.33,
+                );
+                setExact(3);
+                setSummaryScore(v);
+            } else if (dataExValue.length === 2) {
+                const v = Math.round(totalScore[0] * 0.5 + totalScore[1] * 0.5);
+                setExact(2);
+                setSummaryScore(v);
+            } else {
+                const v = Math.round(totalScore[0]);
+                setExact(1);
+                setSummaryScore(v);
             }
         };
 
@@ -842,7 +825,7 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
         if (calLoading) {
             console.log(summaryScore);
         }
-    }, [score, delistReason, currentratioPoint, accountingFraudPoint]);
+    }, [dataExValue]);
     const [exactVal, setExactVal] = useState('');
     const exactCal = () => {
         if (exact === 4) {
@@ -860,97 +843,243 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
     // 2번 결과 값 delistReason
     // 3번 결과 값 currentratioPoint
     // 4번 결과 값 accountingFraudPoint
+
+    if (summaryScore <= 100 && summaryScore > 75)
+        return (
+            <Inner>
+                <div>
+                    <Box1>
+                        <h1>분석 결과</h1>
+                        <div />
+                        <span>
+                            <h2>수익안전성</h2>
+                            <h3>{score}점</h3>
+                        </span>
+                        <span>
+                            <h2>관리종목/상장폐지</h2>
+                            <h3>{delistReason}점</h3>
+                        </span>
+                        <span>
+                            <h2>유동비율</h2>
+                            <h3>{currentratioPoint}점</h3>
+                        </span>
+                        <span>
+                            <h2>분식가능성</h2>
+                            <h3>{accountingFraudPoint}점</h3>
+                        </span>
+                    </Box1>
+                    <Box2>
+                        <h2>종합 진단</h2>
+                        <div>
+                            <h1>🤩 {name3} 은(는) 재무건전성이 훌륭해요.</h1>
+
+                            <h3>{summaryScore}점</h3>
+                        </div>
+
+                        {exact === 4 ? (
+                            <h4> *정확도 : 매우좋음 </h4>
+                        ) : exact === 3 ? (
+                            <h4> *정확도 : 좋음 </h4>
+                        ) : exact === 2 ? (
+                            <h4> *정확도 : 안좋음</h4>
+                        ) : (
+                            <h4> *정확도 : 매우 안좋음 </h4>
+                        )}
+                    </Box2>
+                </div>
+
+                <Info>
+                    Accouter가 제공하는 금융 정보는 각 콘텐츠 제공업체로부터
+                    받는 정보로 투자 참고사항이며, 오류가 발생하거나 지연될 수
+                    있습니다. Accouter는 제공된 정보에 의한 투자결과에
+                    법적책임을 지지 않습니다. 게시된 정보는 무단으로 배포할 수
+                    없습니다.
+                </Info>
+            </Inner>
+        );
+
+    if (summaryScore <= 75 && summaryScore > 50)
+        return (
+            <Inner>
+                <div>
+                    <Box1>
+                        <h1>분석 결과</h1>
+                        <div />
+                        <span>
+                            <h2>수익안전성</h2>
+                            <h3>{score}점</h3>
+                        </span>
+                        <span>
+                            <h2>관리종목/상장폐지</h2>
+                            <h3>{delistReason}점</h3>
+                        </span>
+                        <span>
+                            <h2>유동비율</h2>
+                            <h3>{currentratioPoint}점</h3>
+                        </span>
+                        <span>
+                            <h2>분식가능성</h2>
+                            <h3>{accountingFraudPoint}점</h3>
+                        </span>
+                    </Box1>
+                    <Box2>
+                        <h2>종합 진단</h2>
+                        <div>
+                            <h1>
+                                😏 {name3} 은(는) 재무건정성이 아쉬워요. 재무
+                                외에 다른 요소도 확인할 필요가 있어요.
+                            </h1>
+
+                            <h3>{summaryScore}점</h3>
+                        </div>
+
+                        {exact === 4 ? (
+                            <h4> *정확도 : 매우좋음 </h4>
+                        ) : exact === 3 ? (
+                            <h4> *정확도 : 좋음 </h4>
+                        ) : exact === 2 ? (
+                            <h4> *정확도 : 안좋음</h4>
+                        ) : (
+                            <h4> *정확도 : 매우 안좋음 </h4>
+                        )}
+                    </Box2>
+                </div>
+
+                <Info>
+                    Accouter가 제공하는 금융 정보는 각 콘텐츠 제공업체로부터
+                    받는 정보로 투자 참고사항이며, 오류가 발생하거나 지연될 수
+                    있습니다. Accouter는 제공된 정보에 의한 투자결과에
+                    법적책임을 지지 않습니다. 게시된 정보는 무단으로 배포할 수
+                    없습니다.
+                </Info>
+            </Inner>
+        );
+
+    if (summaryScore <= 50 && summaryScore > 25)
+        return (
+            <Inner>
+                <div>
+                    <Box1>
+                        <h1>분석 결과</h1>
+                        <div />
+                        <span>
+                            <h2>수익안전성</h2>
+                            <h3>{score}점</h3>
+                        </span>
+                        <span>
+                            <h2>관리종목/상장폐지</h2>
+                            <h3>{delistReason}점</h3>
+                        </span>
+                        <span>
+                            <h2>유동비율</h2>
+                            <h3>{currentratioPoint}점</h3>
+                        </span>
+                        <span>
+                            <h2>분식가능성</h2>
+                            <h3>{accountingFraudPoint}점</h3>
+                        </span>
+                    </Box1>
+                    <Box2>
+                        <h2>종합 진단</h2>
+                        <div>
+                            <h1>
+                                🧐 {name3} 은(는) 재무건정성에 유의할 필요가
+                                있어요. 투자에 주의하세요.
+                            </h1>
+
+                            <h3>{summaryScore}점</h3>
+                        </div>
+
+                        {exact === 4 ? (
+                            <h4> *정확도 : 매우좋음 </h4>
+                        ) : exact === 3 ? (
+                            <h4> *정확도 : 좋음 </h4>
+                        ) : exact === 2 ? (
+                            <h4> *정확도 : 안좋음</h4>
+                        ) : (
+                            <h4> *정확도 : 매우 안좋음 </h4>
+                        )}
+                    </Box2>
+                </div>
+
+                <Info>
+                    Accouter가 제공하는 금융 정보는 각 콘텐츠 제공업체로부터
+                    받는 정보로 투자 참고사항이며, 오류가 발생하거나 지연될 수
+                    있습니다. Accouter는 제공된 정보에 의한 투자결과에
+                    법적책임을 지지 않습니다. 게시된 정보는 무단으로 배포할 수
+                    없습니다.
+                </Info>
+            </Inner>
+        );
+
+    if (summaryScore <= 25 && summaryScore >= 0)
+        return (
+            <Inner>
+                <div>
+                    <Box1>
+                        <h1>분석 결과</h1>
+                        <div />
+                        <span>
+                            <h2>수익안전성</h2>
+                            <h3>{score}점</h3>
+                        </span>
+                        <span>
+                            <h2>관리종목/상장폐지</h2>
+                            <h3>{delistReason}점</h3>
+                        </span>
+                        <span>
+                            <h2>유동비율</h2>
+                            <h3>{currentratioPoint}점</h3>
+                        </span>
+                        <span>
+                            <h2>분식가능성</h2>
+                            <h3>{accountingFraudPoint}점</h3>
+                        </span>
+                    </Box1>
+                    <Box2>
+                        <h2>종합 진단</h2>
+                        <div>
+                            <h1>
+                                😖 {name3} 은(는) 재무건전성이 불안해요. 투자에
+                                매우 유의하세요.
+                            </h1>
+
+                            <h3>{summaryScore}점</h3>
+                        </div>
+
+                        {exact === 4 ? (
+                            <h4> *정확도 : 매우좋음 </h4>
+                        ) : exact === 3 ? (
+                            <h4> *정확도 : 좋음 </h4>
+                        ) : exact === 2 ? (
+                            <h4> *정확도 : 안좋음</h4>
+                        ) : (
+                            <h4> *정확도 : 매우 안좋음 </h4>
+                        )}
+                    </Box2>
+                </div>
+
+                <Info>
+                    Accouter가 제공하는 금융 정보는 각 콘텐츠 제공업체로부터
+                    받는 정보로 투자 참고사항이며, 오류가 발생하거나 지연될 수
+                    있습니다. Accouter는 제공된 정보에 의한 투자결과에
+                    법적책임을 지지 않습니다. 게시된 정보는 무단으로 배포할 수
+                    없습니다.
+                </Info>
+            </Inner>
+        );
     return (
         <div>
             <div>
                 {noSummary ? (
-                    '와우~ 이 회사는 아~~무 정보가 없네용 퉤퉤'
-                ) : calLoading ? (
-                    <Inner>
-                        <div>
-                            <Box1>
-                                <h1>분석 결과</h1>
-                                <div />
-                                <span>
-                                    <h2>수익안전성</h2>
-                                    <h3>{score}점</h3>
-                                </span>
-                                <span>
-                                    <h2>관리종목/상장폐지</h2>
-                                    <h3>{delistReason}점</h3>
-                                </span>
-                                <span>
-                                    <h2>유동비율</h2>
-                                    <h3>{currentratioPoint}점</h3>
-                                </span>
-                                <span>
-                                    <h2>분식가능성</h2>
-                                    <h3>{accountingFraudPoint}점</h3>
-                                </span>
-                            </Box1>
-                            <Box2>
-                                <h2>종합 진단</h2>
-                                <div>
-                                    {summaryScore <= 100 &&
-                                    summaryScore > 75 ? (
-                                        <h1>
-                                            🤩 {name3} 은(는) 재무건전성이
-                                            훌륭해요.
-                                        </h1>
-                                    ) : summaryScore <= 75 &&
-                                      summaryScore > 50 ? (
-                                        <h1>
-                                            😏 {name3} 은(는) 재무건정성이
-                                            아쉬워요. 재무 외에 다른 요소도
-                                            확인할 필요가 있어요.
-                                        </h1>
-                                    ) : summaryScore <= 50 &&
-                                      summaryScore > 25 ? (
-                                        <h1>
-                                            🧐 {name3} 은(는) 재무건정성에
-                                            유의할 필요가 있어요. 투자에
-                                            주의하세요.
-                                        </h1>
-                                    ) : (
-                                        <h1>
-                                            😖 {name3} 은(는) 재무건전성이
-                                            불안해요. 투자에 매우 유의하세요.
-                                        </h1>
-                                    )}
-
-                                    <h3>{summaryScore}점</h3>
-                                </div>
-
-                                {exact === 4 ? (
-                                    <h4> *정확도 : 매우좋음 </h4>
-                                ) : exact === 3 ? (
-                                    <h4> *정확도 : 좋음 </h4>
-                                ) : exact === 2 ? (
-                                    <h4> *정확도 : 안좋음</h4>
-                                ) : (
-                                    <h4> *정확도 : 매우 안좋음 </h4>
-                                )}
-                            </Box2>
-                        </div>
-
-                        <Info>
-                            Accouter가 제공하는 금융 정보는 각 콘텐츠
-                            제공업체로부터 받는 정보로 투자 참고사항이며, 오류가
-                            발생하거나 지연될 수 있습니다. Accouter는 제공된
-                            정보에 의한 투자결과에 법적책임을 지지 않습니다.
-                            게시된 정보는 무단으로 배포할 수 없습니다.
-                        </Info>
-                    </Inner>
+                    <NoData>
+                        <h2>전체요약</h2>
+                        <div>입력된 데이터가 없어요 😥 </div>
+                    </NoData>
                 ) : (
-                    // <div>
-                    //     <h1>1번 결과 : {score}</h1>
-                    //     <h1>2번 결과 : {delistReason}</h1>
-                    //     <h1>3번 결과 : {currentratioPoint}</h1>
-                    //     <h1>4번 결과 : {accountingFraudPoint}</h1>
-                    //     <h1>총점 {summaryScore}</h1>
-                    //     <h1>정확도 : {exact}</h1>
-                    // </div>
-                    '로딩중'
+                    <Loading>
+                        👨‍⚕️<h1> 기업의 건강검진 중이에요!</h1>🩺
+                    </Loading>
                 )}
             </div>
         </div>
@@ -958,8 +1087,68 @@ const Summary: React.FC<SummaryType> = ({ corpCode }) => {
 };
 
 export default Summary;
+
+const Loading = styled.div`
+    width: 602px;
+    height: 265px;
+
+    border-radius: 15px;
+    margin-left: 9.5px;
+    margin-bottom: 60px;
+
+    padding: 20px;
+    display: flex;
+    text-align: center;
+
+    font-weight: 400;
+    font-size: 60px;
+    color: white;
+
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+        font-family: 'Spoqa Han Sans Neo';
+        font-weight: 300;
+        font-size: 20px;
+        margin: 0 10px;
+    }
+`;
+
+const NoData = styled.div`
+    width: 292px;
+    height: 265px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    h2 {
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 16px;
+
+        color: #4f4f4f;
+    }
+
+    div {
+        font-size: 14px;
+        line-height: 18px;
+        /* identical to box height */
+
+        text-align: center;
+
+        color: #737373;
+        margin: auto;
+    }
+`;
 const Info = styled.div`
     width: 913px;
+    font-size: 12px;
     height: 265px;
 `;
 const Inner = styled.div`
